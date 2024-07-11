@@ -47,3 +47,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         glowObserver.observe(item);
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const clouds = document.querySelectorAll('.cloud');
+    clouds.forEach(cloud => {
+        const randomDuration = 70 + Math.random() * 30; // Entre 70 et 100 secondes
+        const randomDelay = Math.random() * -50; // Départ décalé
+        const randomTop = Math.random() * 70; // Position verticale aléatoire
+
+        cloud.style.setProperty('--duration', `${randomDuration}s`);
+        cloud.style.animationDelay = `${randomDelay}s`;
+        cloud.style.top = `${randomTop}%`;
+    });
+});

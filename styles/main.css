@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
 :root {
-    --primary-color: #1e3a8a;
-    --secondary-color: #3b82f6;
+    --primary-color: #2c5e1a;
+    --secondary-color: #4a8f29;
     --text-color: #f3f4f6;
-    --bg-color: #0f172a;
+    --bg-color: #1a4314;
+    --accent-color: #8bc34a;
 }
 
 * {
@@ -19,6 +20,7 @@ body {
     color: var(--text-color);
     background-color: var(--bg-color);
     font-size: 16px;
+    overflow-x: hidden;
 }
 
 #hero {
@@ -31,19 +33,89 @@ body {
     padding: 0 20px;
     position: relative;
     overflow: hidden;
+    background: linear-gradient(to bottom, #87CEEB, var(--bg-color));
 }
 
-#hero::before {
-    content: '';
+.cloud {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    width: auto;
+    height: 250px; /* Ajustez selon la taille de vos images */
+    opacity: 0.8;
+    animation: floatCloud 60s infinite linear;
+}
+
+.cloud-top {
+    z-index: 10; /* Place ces nuages au-dessus du contenu */
+}
+
+.cloud:nth-child(1) { 
+    top: 15%; 
+    animation-duration: 87s;
+}
+.cloud:nth-child(2) { 
+    top: 25%; 
+    animation-duration: 92s;
+    animation-delay: -20s;
+}
+.cloud:nth-child(3) { 
+    top: 50%; 
+    animation-duration: 75s;
+    animation-delay: -15s;
+}
+.cloud:nth-child(4) { 
+    top: 60%; 
+    animation-duration: 83s;
+    animation-delay: -35s;
+}
+
+@keyframes floatCloud {
+    0% {
+        transform: translateX(-100%) translateY(0);
+    }
+    100% {
+        transform: translateX(100vw) translateY(0);
+    }
+}
+
+/* Animation verticale légère */
+@keyframes floatUpDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(15px); }
+}
+
+.cloud {
+    animation: 
+        floatCloud var(--duration, 60s) infinite linear,
+        floatUpDown 8s ease-in-out infinite;
+}
+
+.cloud:nth-child(1) { top: 10%; left: -100px; animation-duration: 35s; }
+.cloud:nth-child(2) { top: 30%; right: -140px; animation-duration: 45s; animation-delay: -20s; }
+.cloud:nth-child(3) { bottom: 40%; left: -80px; animation-duration: 40s; animation-delay: -10s; }
+.cloud:nth-child(4) { top: 20%; right: -120px; animation-duration: 50s; animation-delay: -15s; }
+
+.tree {
+    position: absolute;
     bottom: 0;
-    background: linear-gradient(45deg, #1a237e, #4a148c, #1a237e);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    z-index: -1;
+    width: auto; /* Ajustez selon la taille de vos images */
+    height: 150px; /* Ajustez selon la taille de vos images */
+}
+
+.tree:nth-child(5) { left: 5%; height: 180px; }
+.tree:nth-child(6) { right: 5%; height: 150px; }
+
+.fox {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: auto; /* Ajustez selon la taille de votre image */
+    height: 200px; /* Ajustez selon la taille de votre image */
+}
+
+@keyframes float {
+    0% { transform: translateX(-100%) translateY(0); }
+    50% { transform: translateX(50vw) translateY(20px); }
+    100% { transform: translateX(100vw) translateY(0); }
 }
 
 #hero::after {
@@ -59,7 +131,8 @@ body {
 }
 
 .hero-content {
-    z-index: 1;
+    position: relative;
+    z-index: 5;
     animation: glow 2s ease-in-out infinite alternate;
 }
 
@@ -68,7 +141,7 @@ body {
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid var(--secondary-color);
+    border: 3px solid var(--accent-color);
     margin-bottom: 2rem;
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
 }
