@@ -4,90 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mathis BOCHE - Site Personnel</title>
-    <link rel="icon" href="images/favicon.png" type="image/png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/timeline.css">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="images/pp.png" alt="Mathis BOCHE" id="logo-img">
-        </div>
-        <nav>
-            <ul id="nav-menu">
-                <li><a href="#about">À propos</a></li>
-                <li><a href="#timeline">Parcours</a></li>
-                <li><a href="#chess">Échecs</a></li>
-                <li><a href="#tennis">Tennis</a></li>
-                <li><a href="#programming">IA & Code</a></li>
-            </ul>
-        </nav>
-        <button id="menu-toggle"><i class="fas fa-bars"></i></button>
-    </header>
-
     <main>
         <section id="hero">
             <h1>Mathis BOCHE</h1>
             <p>Passionné d'Échecs, Tennis et IA</p>
-            <a href="#about" class="cta-button">Découvrir</a>
-        </section>
-
-        <section id="about">
-            <h2>À propos de moi</h2>
-            <p>Je m'appelle Mathis BOCHE, j'ai 16 ans et je suis passionné par les échecs, le tennis et l'intelligence artificielle.</p>
-        </section>
-
-        <section id="timeline" class="timeline">
-            <h2>Ma Timeline</h2>
-            <div class="timeline-container">
-                <!-- Les éléments de la timeline seront ajoutés dynamiquement avec JavaScript -->
-            </div>
-        </section>
-
-        <section id="chess" class="chess">
-            <h2>Échecs</h2>
-            <div class="chessboard-container">
-                <div id="chessboard"></div>
-                <div class="opening-selector">
-                    <label for="opening-color">Couleur :</label>
-                    <select id="opening-color">
-                        <option value="white">Blancs</option>
-                        <option value="black">Noirs</option>
-                    </select>
-                </div>
-            </div>
-        </section>
-
-        <section id="tennis" class="tennis">
-            <h2>Tennis</h2>
-            <div class="video-container">
-                <video id="tennis-video" controls>
-                    <source src="vidéos/Tennis.mp4" type="video/mp4">
-                    Votre navigateur ne supporte pas la vidéo HTML5.
-                </video>
-            </div>
-        </section>
-
-        <section id="programming" class="programming">
-            <h2>Programmation & IA</h2>
-            <p>Ma passion pour la programmation et l'intelligence artificielle...</p>
+            <a href="#" class="cta-button">En savoir plus</a>
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Mathis BOCHE. Tous droits réservés.</p>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-            <a href="#"><i class="fab fa-github"></i></a>
-        </div>
-    </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="scripts/main.js"></script>
-    <script src="scripts/chess.js"></script>
-    <script src="scripts/tennis.js"></script>
 </body>
 </html>
