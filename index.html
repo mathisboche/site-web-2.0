@@ -4,27 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mathis BOCHE - Site Personnel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/timeline.css">
 </head>
 <body>
     <header>
-        <h1>Mathis BOCHE</h1>
-        <p>Passionné d'Échecs, Tennis et IA</p>
+        <div class="logo">MB</div>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#timeline">Parcours</a></li>
+                <li><a href="#chess">Échecs</a></li>
+                <li><a href="#tennis">Tennis</a></li>
+                <li><a href="#programming">IA & Code</a></li>
+            </ul>
+        </nav>
+        <button id="menu-toggle"><i class="fas fa-bars"></i></button>
     </header>
 
-    <nav>
-        <button id="menu-toggle">Menu</button>
-        <ul id="nav-menu">
-            <li><a href="#about">À propos</a></li>
-            <li><a href="#timeline">Timeline</a></li>
-            <li><a href="#chess">Échecs</a></li>
-            <li><a href="#tennis">Tennis</a></li>
-            <li><a href="#programming">Programmation & IA</a></li>
-        </ul>
-    </nav>
-
     <main>
+        <section id="hero">
+            <h1>Mathis BOCHE</h1>
+            <p>Passionné d'Échecs, Tennis et IA</p>
+            <a href="#about" class="cta-button">Découvrir</a>
+        </section>
+
         <section id="about">
             <h2>À propos de moi</h2>
             <p>Je m'appelle Mathis BOCHE, j'ai 16 ans et je suis passionné par les échecs, le tennis et l'intelligence artificielle.</p>
@@ -69,6 +74,11 @@
 
     <footer>
         <p>&copy; 2024 Mathis BOCHE. Tous droits réservés.</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+        </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>

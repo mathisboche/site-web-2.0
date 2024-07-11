@@ -1,3 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --text-color: #333;
+    --bg-color: #f8f9fa;
+    --accent-color: #e74c3c;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,71 +15,105 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: var(--text-color);
+    background-color: var(--bg-color);
     font-size: 16px;
 }
 
 header {
-    background: #f4f4f4;
-    padding: 1rem;
-    text-align: center;
-}
-
-header h1 {
-    font-size: 1.5rem;
-}
-
-nav {
-    background: #333;
-    color: #fff;
-    padding: 0.5rem;
-}
-
-#menu-toggle {
-    display: block;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    position: fixed;
     width: 100%;
-    padding: 0.5rem;
-    background: #444;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
 }
 
-#nav-menu {
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+nav ul {
     display: none;
     list-style-type: none;
 }
 
-#nav-menu.active {
-    display: block;
-}
-
-nav ul li {
-    margin: 0.5rem 0;
-}
-
 nav ul li a {
-    color: #fff;
+    color: var(--text-color);
     text-decoration: none;
-    display: block;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--primary-color);
+}
+
+#menu-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    cursor: pointer;
 }
 
 section {
-    padding: 2rem 1rem;
-    margin: 1rem 0;
+    padding: 4rem 1rem;
+}
+
+#hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+#hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: white;
+    color: var(--primary-color);
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
 }
 
 h2 {
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
     text-align: center;
+    color: var(--primary-color);
 }
 
 .video-container {
     width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 #tennis-video {
@@ -78,54 +122,74 @@ h2 {
 }
 
 footer {
-    background: #333;
-    color: #fff;
+    background: var(--primary-color);
+    color: white;
     text-align: center;
-    padding: 1rem;
+    padding: 2rem;
 }
 
-/* Media queries pour les écrans plus larges */
-@media screen and (min-width: 768px) {
-    body {
-        font-size: 18px;
-    }
+.social-links a {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0 0.5rem;
+    transition: color 0.3s ease;
+}
 
-    header h1 {
-        font-size: 2rem;
+.social-links a:hover {
+    color: var(--secondary-color);
+}
+
+@media screen and (min-width: 768px) {
+    nav ul {
+        display: flex;
     }
 
     #menu-toggle {
         display: none;
     }
 
-    #nav-menu {
-        display: flex;
-        justify-content: center;
-    }
-
-    nav ul li {
-        margin: 0 15px;
-    }
-
     section {
-        padding: 4rem 2rem;
+        padding: 6rem 2rem;
     }
 
-    h2 {
-        font-size: 2.5rem;
+    #hero h1 {
+        font-size: 3.5rem;
     }
 }
 
-@media screen and (min-width: 1024px) {
-    .video-container {
-        max-width: 800px;
-        margin: 0 auto;
+/* Animations pour les sections */
+section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animation du menu mobile */
+@media screen and (max-width: 767px) {
+    nav ul {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: transform 0.3s ease;
     }
 
-    section {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+    nav ul.active {
+        transform: scaleY(1);
+    }
+
+    nav ul li {
+        margin: 0.5rem 0;
     }
 }
