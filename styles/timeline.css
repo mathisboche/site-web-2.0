@@ -1,1 +1,153 @@
-/* Ceci est un commentaire en CSS */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+#timeline {
+    padding: 2rem 1rem;
+    background-color: var(--bg-color);
+}
+
+#timeline h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+}
+
+.timeline {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--secondary-color);
+    transform: translateX(calc(1.5rem - 2px));
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 3rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.timeline-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.timeline-content {
+    background-color: var(--primary-color);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.timeline-content h3 {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.timeline-content h4 {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.timeline-content p {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.timeline-item:hover .timeline-icon,
+.timeline-item:focus .timeline-icon {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px var(--secondary-color);
+}
+
+.timeline-item:hover .timeline-content,
+.timeline-item:focus .timeline-content {
+    transform: translateX(10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (min-width: 768px) {
+    #timeline {
+        padding: 4rem 2rem;
+    }
+
+    #timeline h2 {
+        font-size: 2.5rem;
+    }
+
+    .timeline::before {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .timeline-item {
+        width: 50%;
+        margin-bottom: 4rem;
+        padding-left: 0;
+    }
+
+    .timeline-item:nth-child(even) {
+        margin-left: 50%;
+        padding-left: 3rem;
+        padding-right: 0;
+    }
+
+    .timeline-item:nth-child(odd) {
+        padding-right: 3rem;
+        text-align: right;
+    }
+
+    .timeline-icon {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .timeline-item:nth-child(odd) .timeline-icon {
+        transform: translateX(50%);
+    }
+
+    .timeline-content {
+        padding: 2rem;
+    }
+
+    .timeline-content h3 {
+        font-size: 1.5rem;
+    }
+
+    .timeline-content h4 {
+        font-size: 1.2rem;
+    }
+
+    .timeline-content p {
+        font-size: 1rem;
+    }
+
+    .timeline-item:hover .timeline-content,
+    .timeline-item:focus .timeline-content {
+        transform: translateY(-10px);
+    }
+}
