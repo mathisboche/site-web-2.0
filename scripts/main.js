@@ -26,12 +26,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         observer.observe(item);
     });
 
-    // Glow effect
+    // Glow effect and icon visibility
     const glowObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                timelineItems.forEach(item => item.classList.remove('glow'));
+                timelineItems.forEach(item => {
+                    item.classList.remove('glow');
+                    item.querySelector('.timeline-icon').style.opacity = '0';
+                });
                 entry.target.classList.add('glow');
+                entry.target.querySelector('.timeline-icon').style.opacity = '1';
             }
         });
     }, {

@@ -45,6 +45,7 @@
 .timeline-item.glow .timeline-icon {
     transform: scale(1.2);
     box-shadow: 0 0 15px var(--secondary-color);
+    opacity: 1; /* Icône visible lors du glow */
 }
 
 .timeline-item.glow .timeline-content {
@@ -67,6 +68,7 @@
     font-size: 1.2rem;
     z-index: 1;
     transition: all 0.3s ease;
+    opacity: 0; /* Icône initialement invisible */
 }
 
 .timeline-content {
