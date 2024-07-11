@@ -1,0 +1,131 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    font-size: 16px;
+}
+
+header {
+    background: #f4f4f4;
+    padding: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 1.5rem;
+}
+
+nav {
+    background: #333;
+    color: #fff;
+    padding: 0.5rem;
+}
+
+#menu-toggle {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    background: #444;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#nav-menu {
+    display: none;
+    list-style-type: none;
+}
+
+#nav-menu.active {
+    display: block;
+}
+
+nav ul li {
+    margin: 0.5rem 0;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 0.5rem;
+}
+
+section {
+    padding: 2rem 1rem;
+    margin: 1rem 0;
+}
+
+h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.video-container {
+    width: 100%;
+}
+
+#tennis-video {
+    width: 100%;
+    height: auto;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Media queries pour les écrans plus larges */
+@media screen and (min-width: 768px) {
+    body {
+        font-size: 18px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    #menu-toggle {
+        display: none;
+    }
+
+    #nav-menu {
+        display: flex;
+        justify-content: center;
+    }
+
+    nav ul li {
+        margin: 0 15px;
+    }
+
+    section {
+        padding: 4rem 2rem;
+    }
+
+    h2 {
+        font-size: 2.5rem;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .video-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
