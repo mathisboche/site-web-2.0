@@ -178,8 +178,7 @@
             opacity: 0;
             white-space: nowrap;
             overflow: hidden;
-            border-right: .15em solid lime;
-            animation: typing 3.5s steps(30, end), blink-caret .75s step-end infinite;
+            animation: typing 3.5s steps(30, end);
         }
 
         .broken-lines {
@@ -210,9 +209,14 @@
             to { width: 100%; }
         }
 
-        @keyframes blink-caret {
-            from, to { border-color: transparent; }
-            50% { border-color: lime; }
+        @media (max-width: 768px) {
+            .broken-screen-text {
+                font-size: 8vw;
+            }
+
+            .broken-screen-subtext {
+                font-size: 4vw;
+            }
         }
     </style>
 </head>
