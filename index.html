@@ -176,7 +176,19 @@
             opacity: 0;
             transition: opacity 0.05s;
             z-index: 1001;
-            animation: imageGlitch 0.1s infinite;
+        }
+
+        @keyframes imageGlitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(5px, -5px); }
+            60% { transform: translate(-5px, -5px); }
+            80% { transform: translate(5px, 5px); }
+            100% { transform: translate(0); }
+        }
+
+        .broken-screen-image.glitch {
+            animation: imageGlitch 0.2s steps(5, end) infinite;
         }
 
 
@@ -188,16 +200,27 @@
             z-index: 1002;
         }
 
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: white; }
+        }
+
         .broken-screen-subtext {
             font-size: 2vw;
             color: white;
             text-align: center;
             margin-top: 20px;
-            opacity: 0;
             white-space: nowrap;
             overflow: hidden;
-            animation: typing 3.5s steps(30, end);
-            z-index: 1002;
+            display: inline-block;
+            border-right: 0.15em solid white; /* The typing cursor */
+            animation: blink-caret 0.75s step-end infinite; /* Blinking cursor animation */
+            z-index: 1002; /* Ensures it stays above the image */
+        }
+
+        .hidden {
+            opacity: 0;
+            transition: opacity 0s;
         }
 
         .broken-lines {
@@ -218,23 +241,9 @@
             100% { transform: translate(0); }
         }
 
-        @keyframes imageGlitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-5px, 5px); }
-            40% { transform: translate(5px, -5px); }
-            60% { transform: translate(-5px, -5px); }
-            80% { transform: translate(5px, 5px); }
-            100% { transform: translate(0); }
-        }
-
         @keyframes moveLines {
             0% { background-position: 0 0; }
             100% { background-position: 0 -4px; }
-        }
-
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
         }
 
         @media (max-width: 768px) {
@@ -260,7 +269,7 @@
         <div class="broken-lines"></div>
         <div class="broken-screen-image" id="screamer-image"></div>
         <div class="broken-screen-text">Site web à venir</div>
-        <div class="broken-screen-subtext" id="broken-screen-subtext">Mathis Boche</div>
+        <div class="broken-screen-subtext" id="broken-screen-subtext"></div>
     </div>
 
     <script>
@@ -341,10 +350,10 @@
                         element.querySelector('.glitch').innerHTML += content.charAt(i);
                         i++;
                         applyRandomEffects(element);
-                        const typingSpeed = Math.random() * (200 - 20) + 20;
+                        const typingSpeed = Math.random() * (100 - 10) + 10; // Adjusted typing speed
                         setTimeout(type, typingSpeed / chaosLevel);
                     } else {
-                        const displayTime = (Math.random() * 1000 + 500) / chaosLevel;
+                        const displayTime = (Math.random() * 500 + 250) / chaosLevel;
                         setTimeout(() => {
                             element.style.opacity = '0';
                             setTimeout(() => {
@@ -354,7 +363,7 @@
                                 } else {
                                     typeText(element);
                                 }
-                            }, 200 / chaosLevel);
+                            }, 100 / chaosLevel);
                         }, displayTime);
                     }
                 }
@@ -363,7 +372,7 @@
 
             const texts = createTextElements();
             texts.forEach(text => {
-                setTimeout(() => typeText(text), Math.random() * 1000);
+                setTimeout(() => typeText(text), Math.random() * 500);
             });
 
             const hackerTextElement = document.getElementById('hacker-text');
@@ -413,7 +422,7 @@
 
                 // Démarrer l'effet de typing pour "Mathis Boche"
                 const subtext = document.getElementById('broken-screen-subtext');
-                subtext.style.opacity = '1';
+                startTypingEffect(subtext);
 
                 // Démarrer l'effet screamer
                 startScreamerEffect();
@@ -424,16 +433,48 @@
             function startScreamerEffect() {
                 const screamerImage = document.getElementById('screamer-image');
                 function showScreamer() {
+                    screamerImage.classList.add('glitch');
                     screamerImage.style.opacity = '1';
                     setTimeout(() => {
                         screamerImage.style.opacity = '0';
-                        const nextShowTime = Math.random() * 3000 + 500; // Next show between 0.5s and 3.5s
+                        screamerImage.classList.remove('glitch');
+                        const nextShowTime = Math.random() * 10000 + 500; // Next show between 0.5s and 3.5s
                         setTimeout(showScreamer, nextShowTime);
-                    }, 1); // Show for 1ms (le plus court possible)
+                    }, 50); // Show for 0.05s
                 }
                 setTimeout(showScreamer, Math.random() * 3000); // Initial show between 0s and 3s
             }
 
+
+            function startTypingEffect(element) {
+                const text = "Mathis Boche";
+                let charIndex = 0;
+                let isDeleting = false;
+
+                function typeAndDelete() {
+                    if (!isDeleting && charIndex < text.length) {
+                        element.textContent += text.charAt(charIndex);
+                        charIndex++;
+                    } else if (isDeleting && charIndex > 0) {
+                        element.textContent = text.substring(0, charIndex - 1);
+                        charIndex--;
+                    }
+
+                    if (!isDeleting && charIndex === text.length) {
+                        isDeleting = true;
+                        setTimeout(typeAndDelete, 200); // Pause réduite avant de commencer à supprimer
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        setTimeout(typeAndDelete, 200); // Pause réduite avant de recommencer à taper
+                    } else {
+                        const speed = isDeleting ? 20 : 40; // Vitesse de frappe et de suppression considérablement accélérée
+                        setTimeout(typeAndDelete, speed);
+                    }
+                }
+
+                // Démarrer l'animation
+                typeAndDelete();
+            }
         });
     </script>
 </body>
