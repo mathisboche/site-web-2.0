@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World - MATHIS BOCHE</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Source Code Pro', monospace;
+            background: black;
+            color: lime;
+            position: relative;
+        }
+
+        .container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .text-container {
+            width: 100%;
+            height: 33.33%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .text {
+            position: absolute;
+            white-space: nowrap;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .glitch {
+            position: relative;
+            display: inline-block;
+            animation: textDistortion 0.1s infinite;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            animation: glitchEffect 0.2s infinite;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 red;
+            animation: glitchEffect 0.3s infinite;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: 2px 0 blue;
+            animation: glitchEffect 0.4s infinite;
+        }
+
+        @keyframes textDistortion {
+            0% { transform: skew(0deg, 0deg); }
+            20% { transform: skew(20deg, 0deg); }
+            40% { transform: skew(-15deg, 0deg); }
+            60% { transform: skew(15deg, 0deg); }
+            80% { transform: skew(-20deg, 0deg); }
+            100% { transform: skew(0deg, 0deg); }
+        }
+
+        @keyframes glitchEffect {
+            0% { clip-path: inset(71% 0 10% 0); }
+            10% { clip-path: inset(29% 0 71% 0); }
+            20% { clip-path: inset(83% 0 1% 0); }
+            30% { clip-path: inset(96% 0 3% 0); }
+            40% { clip-path: inset(59% 0 43% 0); }
+            50% { clip-path: inset(5% 0 98% 0); }
+            60% { clip-path: inset(38% 0 46% 0); }
+            70% { clip-path: inset(72% 0 2% 0); }
+            80% { clip-path: inset(15% 0 87% 0); }
+            90% { clip-path: inset(53% 0 25% 0); }
+            100% { clip-path: inset(0% 0 100% 0); }
+        }
+
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('images/hacker.webp') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: -1;
+            animation: backgroundGlitch 0.5s infinite;
+        }
+
+        @keyframes backgroundGlitch {
+            0% { transform: translate(0, 0); filter: hue-rotate(0deg); }
+            25% { transform: translate(5px, -5px); filter: hue-rotate(90deg); }
+            50% { transform: translate(-5px, 5px); filter: hue-rotate(180deg); }
+            75% { transform: translate(-5px, -5px); filter: hue-rotate(270deg); }
+            100% { transform: translate(0, 0); filter: hue-rotate(360deg); }
+        }
+
+        .hacker-text {
+            font-size: 2vw;
+            color: lime;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            white-space: pre-wrap;
+            opacity: 0.1;
+            z-index: -1;
+            overflow: hidden;
+            animation: hackerTextGlitch 0.3s infinite;
+        }
+
+        @keyframes hackerTextGlitch {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(5px); }
+            50% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+        }
+
+        @media (max-width: 768px) {
+            .hacker-text {
+                font-size: 6vw;
+                width: 100vw;
+                height: 100vh;
+            }
+        }
+
+        .broken-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .broken-screen-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/hacker.webp') center/cover no-repeat;
+            background-blend-mode: multiply;
+            opacity: 0;
+            transition: opacity 0.05s;
+            z-index: 1001;
+        }
+
+        @keyframes imageGlitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(5px, -5px); }
+            60% { transform: translate(-5px, -5px); }
+            80% { transform: translate(5px, 5px); }
+            100% { transform: translate(0); }
+        }
+
+        .broken-screen-image.glitch {
+            animation: imageGlitch 0.2s steps(5, end) infinite;
+        }
+
+
+        .broken-screen-text {
+            font-size: 4vw;
+            color: white;
+            text-align: center;
+            animation: brokenTextGlitch 0.5s infinite;
+            z-index: 1002;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: white; }
+        }
+
+        .broken-screen-subtext {
+            font-size: 2vw;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            border-right: 0.15em solid white; /* The typing cursor */
+            animation: blink-caret 0.75s step-end infinite; /* Blinking cursor animation */
+            z-index: 1002; /* Ensures it stays above the image */
+        }
+
+        .hidden {
+            opacity: 0;
+            transition: opacity 0s;
+        }
+
+        .broken-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent, transparent 50%, #ffffff55 50%, #ffffff55);
+            background-size: 100% 4px;
+            animation: moveLines 0.2s infinite linear;
+        }
+
+        @keyframes brokenTextGlitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-10px, 10px); }
+            40% { transform: translate(10px, -10px); }
+            60% { transform: translate(-5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes moveLines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 -4px; }
+        }
+
+        @media (max-width: 768px) {
+            .broken-screen-text {
+                font-size: 8vw;
+            }
+
+            .broken-screen-subtext {
+                font-size: 4vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-container"></div>
+        <div class="text-container"></div>
+        <div class="text-container"></div>
+    </div>
+    <div class="background"></div>
+    <div class="hacker-text" id="hacker-text"></div>
+    <div class="broken-screen">
+        <div class="broken-lines"></div>
+        <div class="broken-screen-image" id="screamer-image"></div>
+        <div class="broken-screen-text">Site web à venir</div>
+        <div class="broken-screen-subtext" id="broken-screen-subtext"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const container = document.querySelector('.container');
+            const textContainers = document.querySelectorAll('.text-container');
+            const textContent = [
+                { id: "text1", content: "Hello World" },
+                { id: "text2", content: "MATHIS BOCHE" },
+                { id: "text3", content: "Site web à venir" }
+            ];
+            let chaosLevel = 1;
+            const maxChaosLevel = 10;
+
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            function createTextElements() {
+                shuffleArray(textContent);
+                textContainers.forEach((container, index) => {
+                    container.innerHTML = `<div id="${textContent[index].id}" class="text"><span class="glitch" data-text="${textContent[index].content}">${textContent[index].content}</span></div>`;
+                });
+                return document.querySelectorAll('.text');
+            }
+
+            function randomPosition(element, container) {
+                const maxX = container.clientWidth - element.offsetWidth;
+                const maxY = container.clientHeight - element.offsetHeight;
+                const x = Math.floor(Math.random() * maxX);
+                const y = Math.floor(Math.random() * maxY);
+                element.style.left = `${x}px`;
+                element.style.top = `${y}px`;
+            }
+
+            function randomFontSize() {
+                const minSize = 3; // vw
+                const maxSize = 12; // vw
+                return Math.floor(Math.random() * (maxSize - minSize + 1) + minSize);
+            }
+
+            function applyRandomEffects(element) {
+                const effects = [
+                    () => { element.style.filter = `hue-rotate(${Math.random() * 360}deg)`; },
+                    () => { element.style.transform = `skew(${Math.random() * 20 - 10}deg, ${Math.random() * 20 - 10}deg)`; },
+                    () => { element.style.textShadow = `${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px #ff00ff`; },
+                    () => { element.style.letterSpacing = `${Math.random() * 10 - 5}px`; },
+                ];
+                effects.forEach(effect => {
+                    if (Math.random() < chaosLevel / maxChaosLevel) {
+                        effect();
+                    }
+                });
+            }
+
+            function typeText(element) {
+                let content = element.querySelector('.glitch').getAttribute('data-text');
+                element.querySelector('.glitch').innerHTML = '';
+                element.style.opacity = '1';
+                let i = 0;
+                
+                const container = element.closest('.text-container');
+                randomPosition(element, container);
+                const fontSize = randomFontSize();
+                element.style.fontSize = `${fontSize}vw`;
+
+                while (element.offsetWidth > container.clientWidth || element.offsetHeight > container.clientHeight) {
+                    fontSize -= 0.5;
+                    element.style.fontSize = `${fontSize}vw`;
+                    if (fontSize <= 1) break;
+                }
+
+                function type() {
+                    if (i < content.length) {
+                        element.querySelector('.glitch').innerHTML += content.charAt(i);
+                        i++;
+                        applyRandomEffects(element);
+                        const typingSpeed = Math.random() * (100 - 10) + 10; // Adjusted typing speed
+                        setTimeout(type, typingSpeed / chaosLevel);
+                    } else {
+                        const displayTime = (Math.random() * 500 + 250) / chaosLevel;
+                        setTimeout(() => {
+                            element.style.opacity = '0';
+                            setTimeout(() => {
+                                if (Math.random() < chaosLevel / maxChaosLevel) {
+                                    const texts = createTextElements();
+                                    texts.forEach(text => typeText(text));
+                                } else {
+                                    typeText(element);
+                                }
+                            }, 100 / chaosLevel);
+                        }, displayTime);
+                    }
+                }
+                type();
+            }
+
+            const texts = createTextElements();
+            texts.forEach(text => {
+                setTimeout(() => typeText(text), Math.random() * 500);
+            });
+
+            const hackerTextElement = document.getElementById('hacker-text');
+            function generateHackerText() {
+                let lines = '';
+                const columns = Math.floor(window.innerWidth / 10);
+                const rows = Math.floor(window.innerHeight / 20);
+                for (let i = 0; i < rows; i++) {
+                    let line = '';
+                    for (let j = 0; j < columns; j++) {
+                        line += String.fromCharCode(Math.floor(Math.random() * 94) + 33);
+                    }
+                    lines += line + '\n';
+                }
+                hackerTextElement.textContent = lines;
+            }
+            generateHackerText();
+            window.addEventListener('resize', generateHackerText);
+            setInterval(generateHackerText, 50);
+
+            window.addEventListener('resize', () => {
+                const texts = document.querySelectorAll('.text');
+                texts.forEach(text => {
+                    const container = text.closest('.text-container');
+                    randomPosition(text, container);
+                });
+            });
+
+            function increaseChaos() {
+                if (chaosLevel < maxChaosLevel) {
+                    chaosLevel += 0.2;
+                    setTimeout(increaseChaos, 200);  // Appel récursif pour une augmentation continue
+                }
+            }
+            increaseChaos();
+
+            setTimeout(showBrokenScreen, 7000);
+
+            function showBrokenScreen() {
+                const brokenScreen = document.querySelector('.broken-screen');
+                brokenScreen.style.display = 'flex';
+                
+                clearInterval(hackerTextInterval);
+                document.querySelectorAll('.text').forEach(text => {
+                    text.style.animation = 'none';
+                });
+
+                // Démarrer l'effet de typing pour "Mathis Boche"
+                const subtext = document.getElementById('broken-screen-subtext');
+                startTypingEffect(subtext);
+
+                // Démarrer l'effet screamer
+                startScreamerEffect();
+            }
+
+            const hackerTextInterval = setInterval(generateHackerText, 50);
+
+            function startScreamerEffect() {
+                const screamerImage = document.getElementById('screamer-image');
+                function showScreamer() {
+                    screamerImage.classList.add('glitch');
+                    screamerImage.style.opacity = '1';
+                    setTimeout(() => {
+                        screamerImage.style.opacity = '0';
+                        screamerImage.classList.remove('glitch');
+                        const nextShowTime = Math.random() * 10000 + 500; // Next show between 0.5s and 3.5s
+                        setTimeout(showScreamer, nextShowTime);
+                    }, 50); // Show for 0.05s
+                }
+                setTimeout(showScreamer, Math.random() * 3000); // Initial show between 0s and 3s
+            }
+
+
+            function startTypingEffect(element) {
+                const text = "Mathis Boche";
+                let charIndex = 0;
+                let isDeleting = false;
+
+                function typeAndDelete() {
+                    if (!isDeleting && charIndex < text.length) {
+                        element.textContent += text.charAt(charIndex);
+                        charIndex++;
+                    } else if (isDeleting && charIndex > 0) {
+                        element.textContent = text.substring(0, charIndex - 1);
+                        charIndex--;
+                    }
+
+                    if (!isDeleting && charIndex === text.length) {
+                        isDeleting = true;
+                        setTimeout(typeAndDelete, 200); // Pause réduite avant de commencer à supprimer
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        setTimeout(typeAndDelete, 200); // Pause réduite avant de recommencer à taper
+                    } else {
+                        const speed = isDeleting ? 5 : 10; // Vitesse de frappe et de suppression considérablement accélérée
+                        setTimeout(typeAndDelete, speed);
+                    }
+                }
+
+                // Démarrer l'animation
+                typeAndDelete();
+            }
+        });
+    </script>
+</body>
+</html>
