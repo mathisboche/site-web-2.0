@@ -3,381 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mathis Boche - Site Personnel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <title>Nature et Passions</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
-        :root {
-            --primary-color: #33ff33;
-            --secondary-color: #ff00ff;
-            --background-color: #0a0a0a;
-        }
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: var(--background-color);
-            color: var(--primary-color);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-        .container {
-            max-width: 100%;
-            padding: 20px;
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+        
+        *, *::before, *::after {
             box-sizing: border-box;
         }
-        h1, h2 {
-            font-family: 'Black Ops One', cursive;
-            text-align: center;
-            text-shadow: 0 0 10px var(--primary-color);
-        }
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 0.5em;
-            animation: glitch 1s linear infinite;
-        }
-        @keyframes glitch {
-            2%, 64% {
-                transform: translate(2px,0) skew(0deg);
-            }
-            4%, 60% {
-                transform: translate(-2px,0) skew(0deg);
-            }
-            62% {
-                transform: translate(0,0) skew(5deg); 
-            }
-        }
-        .description {
-            font-size: 1.2em;
-            text-align: center;
-            margin-bottom: 2em;
-            max-width: 100%;
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
             overflow: hidden;
-            white-space: normal;
         }
-        .typing-effect {
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: .15em;
-            border-right: .15em solid var(--primary-color);
-            animation: 
-                typing 3.5s steps(40, end),
-                blink-caret .75s step-end infinite 0s,
-                hide-caret 0s 3.5s forwards;
+        .fullscreen-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/nature.png');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.6);
+            transition: all 1s ease;
         }
-        .typing-effect-2 {
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: .15em;
-            width: 0;
-            border-right: .15em solid transparent;
-            animation: 
-                typing 2s steps(40, end) 3.5s forwards,
-                blink-caret-delayed .75s step-end infinite 3.5s;
-        }
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--primary-color); }
-        }
-        @keyframes blink-caret-delayed {
-            from, to { border-color: transparent }
-            50% { border-color: var(--primary-color); }
-        }
-        @keyframes hide-caret {
-            to { border-color: transparent; }
-        }
-        @media (min-width: 768px) {
-            .description {
-                font-size: 1.5em;
-            }
-        }
-        .interests {
+        .content {
+            position: relative;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 1em;
-            margin-bottom: 2em;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 1rem;
         }
-        .interest {
-            text-align: center;
-            padding: 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+        h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 5px;
+            margin: 0;
+            animation: float 6s ease-in-out infinite;
         }
-        .interest::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent, transparent, transparent, var(--secondary-color));
-            animation: rotate 4s linear infinite;
-        }
-        .interest::after {
-            content: '';
-            position: absolute;
-            inset: 3px;
-            background: var(--background-color);
-            border-radius: 7px;
-        }
-        .interest * {
-            position: relative;
-            z-index: 1;
-        }
-        @keyframes rotate {
-            100% {
-                transform: rotate(1turn);
-            }
-        }
-        .animated-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        .bg-element {
-            position: absolute;
-            background-color: var(--primary-color);
-            opacity: 0.1;
-            border-radius: 50%;
-        }
-        .skill-bars {
-            margin-top: 2em;
-        }
-        .skill-bar {
-            margin-bottom: 1em;
-        }
-        .skill-bar-fill {
-            height: 20px;
-            background-color: var(--primary-color);
-            width: 0;
-            transition: width 1s ease-in-out;
-        }
-        .retro-icons {
+        .passions-container {
             display: flex;
-            justify-content: space-around;
-            margin-top: 2em;
-        }
-        .retro-icon {
-            font-size: 2em;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-        .crt-effect {
-            position: fixed;
-            top: 0;
-            left: 0;
+            flex-direction: column;
+            align-items: center;
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10;
-            animation: flicker 0.15s infinite;
         }
-        .crt-effect::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2;
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
+        .passion {
+            font-size: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            width: 80%;
+            max-width: 300px;
+            animation: float 6s ease-in-out infinite;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        @keyframes flicker {
+        .passion:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .passion:nth-child(2) {
+            animation-delay: -2s;
+        }
+        .passion:nth-child(3) {
+            animation-delay: -4s;
+        }
+        .icon {
+            margin-bottom: 0.5rem;
+        }
+        .passion-text {
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: height 0.5s ease, opacity 0.5s ease;
+            font-size: 0.8rem;
+            text-align: left;
+            margin-top: 0.5rem;
+        }
+        .passion-text.show {
+            height: auto;
+            opacity: 1;
+        }
+        .stats {
+            font-size: 0.9rem;
+            text-align: center;
+            animation: float 6s ease-in-out infinite;
+            animation-delay: -3s;
+        }
+        .stats div {
+            margin-top: 0.5rem;
+            font-weight: 300;
+        }
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 48;
+            font-size: 36px;
+        }
+        
+        @keyframes float {
             0% {
-                opacity: 0.27861;
-            }
-            5% {
-                opacity: 0.34769;
-            }
-            10% {
-                opacity: 0.23604;
-            }
-            15% {
-                opacity: 0.90626;
-            }
-            20% {
-                opacity: 0.18128;
-            }
-            25% {
-                opacity: 0.83891;
-            }
-            30% {
-                opacity: 0.65583;
-            }
-            35% {
-                opacity: 0.67807;
-            }
-            40% {
-                opacity: 0.26559;
-            }
-            45% {
-                opacity: 0.84693;
+                transform: translateY(0px);
             }
             50% {
-                opacity: 0.96019;
-            }
-            55% {
-                opacity: 0.08594;
-            }
-            60% {
-                opacity: 0.20313;
-            }
-            65% {
-                opacity: 0.71988;
-            }
-            70% {
-                opacity: 0.53455;
-            }
-            75% {
-                opacity: 0.37288;
-            }
-            80% {
-                opacity: 0.71428;
-            }
-            85% {
-                opacity: 0.70419;
-            }
-            90% {
-                opacity: 0.7003;
-            }
-            95% {
-                opacity: 0.36108;
+                transform: translateY(-10px);
             }
             100% {
-                opacity: 0.24387;
+                transform: translateY(0px);
             }
         }
+        
         @media (min-width: 768px) {
-            .container {
-                max-width: 750px;
-                margin: 0 auto;
-            }
             h1 {
-                font-size: 4em;
+                font-size: 3rem;
             }
-            .interests {
+            .passions-container {
                 flex-direction: row;
                 justify-content: space-around;
             }
-            .description {
-                font-size: 1.5em;
+            .passion {
+                width: 30%;
+            }
+            .stats {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            h1 {
+                font-size: 4rem;
+            }
+            .material-symbols-outlined {
+                font-size: 48px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="crt-effect"></div>
-    <div class="animated-bg"></div>
-    <div class="container">
-        <h1>Mathis Boche</h1>
-        <p class="description">
-            <span class="typing-effect">Passionné d'échecs, de tennis</span><br>
-            <span class="typing-effect-2">et de programmation IA</span>
-        </p>
-        <div class="interests">
-            <div class="interest">
-                <h2>Échecs</h2>
-                <p>Stratégie et réflexion</p>
+    <div class="fullscreen-image"></div>
+    <div class="content">
+        <h1>NATURE ET PASSIONS</h1>
+        <div class="passions-container">
+            <div class="passion">
+                <div class="icon">
+                    <span class="material-symbols-outlined">sports_tennis</span>
+                </div>
+                <div>Tennis</div>
+                <div class="passion-text">Débuts à 4 ans. Entraînement avec la ligue de Normandie.</div>
             </div>
-            <div class="interest">
-                <h2>Tennis</h2>
-                <p>Sport et compétition</p>
+            <div class="passion">
+                <div class="icon">
+                    <span class="material-symbols-outlined">chess</span>
+                </div>
+                <div>Échecs</div>
+                <div class="passion-text">Deux participations aux championnats de France jeunes.</div>
             </div>
-            <div class="interest">
-                <h2>IA</h2>
-                <p>Innovation et futur</p>
-            </div>
-        </div>
-        <div class="skill-bars">
-            <h2>Compétences</h2>
-            <div class="skill-bar">
-                <p>Échecs</p>
-                <div class="skill-bar-fill" style="width: 0%;" data-width="85%"></div>
-            </div>
-            <div class="skill-bar">
-                <p>Tennis</p>
-                <div class="skill-bar-fill" style="width: 0%;" data-width="75%"></div>
-            </div>
-            <div class="skill-bar">
-                <p>Programmation IA</p>
-                <div class="skill-bar-fill" style="width: 0%;" data-width="90%"></div>
+            <div class="passion">
+                <div class="icon">
+                    <span class="material-symbols-outlined">code</span>
+                </div>
+                <div>IA</div>
+                <div class="passion-text">Fasciné par les avancées de l'IA comme ChatGPT.</div>
             </div>
         </div>
-        <div class="retro-icons">
-            <div class="retro-icon">♟️</div>
-            <div class="retro-icon">🎾</div>
-            <div class="retro-icon">🤖</div>
+        <div class="stats">
+            <div>Élo aux échecs: 1772 F</div>
+            <div>Classement tennis: 15/4</div>
         </div>
     </div>
 
     <script>
-        // Animated background
-        const animatedBg = document.querySelector('.animated-bg');
-        for (let i = 0; i < 50; i++) {
-            const element = document.createElement('div');
-            element.classList.add('bg-element');
-            element.style.width = `${Math.random() * 20 + 5}px`;
-            element.style.height = element.style.width;
-            element.style.left = `${Math.random() * 100}%`;
-            element.style.top = `${Math.random() * 100}%`;
-            animatedBg.appendChild(element);
-            
-            animateElement(element);
-        }
-
-        function animateElement(element) {
-            const duration = Math.random() * 10 + 5;
-            const direction = Math.random() > 0.5 ? 1 : -1;
-            
-            element.animate([
-                { transform: 'translate(0, 0)' },
-                { transform: `translate(${50 * direction}px, ${100 * direction}px)` }
-            ], {
-                duration: duration * 1000,
-                iterations: Infinity,
-                direction: 'alternate',
-                easing: 'ease-in-out'
+        function parallaxEffect() {
+            const image = document.querySelector('.fullscreen-image');
+            window.addEventListener('deviceorientation', (e) => {
+                const tiltX = e.gamma / 90;
+                const tiltY = e.beta / 90;
+                image.style.transform = `translate(${tiltX * 10}px, ${tiltY * 10}px)`;
             });
         }
 
-        // Animate skill bars
-        const skillBars = document.querySelectorAll('.skill-bar-fill');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.width = entry.target.dataset.width;
-                }
+        function setupPassionTextToggle() {
+            const passions = document.querySelectorAll('.passion');
+            passions.forEach(passion => {
+                passion.addEventListener('click', () => {
+                    const text = passion.querySelector('.passion-text');
+                    text.classList.toggle('show');
+                });
             });
-        }, { threshold: 0.5 });
+        }
 
-        skillBars.forEach(bar => {
-            observer.observe(bar);
+        window.addEventListener('load', () => {
+            parallaxEffect();
+            setupPassionTextToggle();
         });
     </script>
 </body>
