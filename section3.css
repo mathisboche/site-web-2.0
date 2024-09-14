@@ -1,0 +1,16 @@
+/* section3.css */
+#hobbies {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#chessboard {
+    width: 400px;
+    height: 400px;
+}
+
+#tennis-canvas {
+    width: 400px;
+    height: 400px;
+}

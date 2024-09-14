@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mathis Boche - Site Personnel</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Styles spécifiques aux sections -->
+    <link rel="stylesheet" href="section1.css">
+    <link rel="stylesheet" href="section2.css">
+    <link rel="stylesheet" href="section3.css">
+</head>
+<body>
+
+    <!-- Section Accueil -->
+    <section id="accueil">
+        <div class="typing-effect">
+            <h1 id="name"></h1>
+        </div>
+        <canvas id="background-canvas"></canvas>
+    </section>
+
+    <!-- Section Programmation & IA -->
+    <section id="programmation">
+        <canvas id="programmation-canvas"></canvas>
+        <div class="controls">
+            <label for="speed">Vitesse:</label>
+            <input type="range" id="speed" min="1" max="10" value="5">
+        </div>
+    </section>
+
+    <!-- Section Échecs & Tennis -->
+    <section id="hobbies">
+        <div id="chessboard"></div>
+        <canvas id="tennis-canvas"></canvas>
+    </section>
+
+    <!-- Scripts JavaScript spécifiques aux sections -->
+    <script src="section1.js"></script>
+    <script src="section2.js"></script>
+    <script src="section3.js"></script>
+</body>
+</html>
