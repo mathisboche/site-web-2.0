@@ -8,8 +8,40 @@ body {
     color: #fff;
 }
 
+/* Ajouter une transition d'opacité à toutes les sections */
 section {
     position: relative;
     width: 100%;
     height: 100vh;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+/* Classe pour masquer une section */
+.section-hidden {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+/* Classe pour afficher une section */
+.section-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Styles pour la section de transition noir */
+#transition-noir {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0;
+    transition: opacity 1s ease-out;
+    z-index: 1; /* Au-dessus du canvas de fond */
+}
+
+/* Classe pour afficher la section de transition */
+.transition-visible {
+    opacity: 1;
 }

@@ -26,12 +26,14 @@
 }
 
 #background-canvas {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
+    transition: opacity 1s ease-out, transform 1s ease-out; /* Ajout de transitions */
+    opacity: 1; /* Opacité initiale */
 }
 
 /* Styles pour les petits écrans */

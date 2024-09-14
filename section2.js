@@ -1,44 +1,15 @@
-// section2.js
-
 window.addEventListener('load', () => {
     const canvas = document.getElementById('programmation-canvas');
     const ctx = canvas.getContext('2d');
-
-    resizeCanvas();
 
     let particlesArray = [];
     const mouse = {
         x: null,
         y: null,
-        radius: (canvas.height / 80) * (canvas.width / 80)
+        radius:  (canvas.height / 80) * (canvas.width / 80)
     };
 
-    // Ajuster le canvas lors du redimensionnement
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        mouse.radius = (canvas.height / 80) * (canvas.width / 80);
-        init();
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-
-    // Enregistrer la position de la souris
-    window.addEventListener('mousemove', (event) => {
-        mouse.x = event.x;
-        mouse.y = event.y;
-    });
-
-    // Pour les appareils tactiles
-    window.addEventListener('touchmove', (event) => {
-        mouse.x = event.touches[0].clientX;
-        mouse.y = event.touches[0].clientY;
-    });
-
-    window.addEventListener('touchend', () => {
-        mouse.x = null;
-        mouse.y = null;
-    });
+    let speedMultiplier = 1; // Ajout d'un multiplicateur de vitesse global
 
     // Création des particules
     class Particle {
@@ -88,14 +59,44 @@ window.addEventListener('load', () => {
                 }
             }
 
-            // Déplacer la particule
-            this.x += this.directionX;
-            this.y += this.directionY;
+            // Déplacer la particule avec le multiplicateur de vitesse
+            this.x += this.directionX * speedMultiplier;
+            this.y += this.directionY * speedMultiplier;
 
             // Dessiner la particule
             this.draw();
         }
     }
+
+    // Ajuster le canvas lors du redimensionnement
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        mouse.radius = (canvas.height / 80) * (canvas.width / 80);
+        init();
+    }
+
+    // Définir l'objet 'mouse' avant d'appeler 'resizeCanvas'
+    resizeCanvas();
+
+    window.addEventListener('resize', resizeCanvas);
+
+    // Enregistrer la position de la souris
+    window.addEventListener('mousemove', (event) => {
+        mouse.x = event.x;
+        mouse.y = event.y;
+    });
+
+    // Pour les appareils tactiles
+    window.addEventListener('touchmove', (event) => {
+        mouse.x = event.touches[0].clientX;
+        mouse.y = event.touches[0].clientY;
+    });
+
+    window.addEventListener('touchend', () => {
+        mouse.x = null;
+        mouse.y = null;
+    });
 
     // Créer le tableau de particules
     function init() {
@@ -118,8 +119,7 @@ window.addEventListener('load', () => {
         let opacityValue = 1;
         for (let a = 0; a < particlesArray.length; a++) {
             for (let b = a; b < particlesArray.length; b++) {
-                let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
-                    + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                let distance = ((particlesArray[a].x - particlesArray[b].x) ** 2) + ((particlesArray[a].y - particlesArray[b].y) ** 2);
                 if (distance < (canvas.width / 7) * (canvas.height / 7)) {
                     opacityValue = 1 - (distance / 20000);
                     ctx.strokeStyle = 'rgba(255,255,255,' + opacityValue + ')';
@@ -151,10 +151,6 @@ window.addEventListener('load', () => {
     // Contrôle de l'animation
     const speedControl = document.getElementById('speed');
     speedControl.addEventListener('input', (e) => {
-        const speedMultiplier = e.target.value;
-        particlesArray.forEach(particle => {
-            particle.directionX *= speedMultiplier;
-            particle.directionY *= speedMultiplier;
-        });
+        speedMultiplier = parseFloat(e.target.value);
     });
 });
