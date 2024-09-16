@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
         "Mathis Boche",
         "Développeur Passionné",
         "Amateur d'Échecs",
-        "Ancien Joueur de Tennis"
+        "Ancien Joueur de Tennis",
+        "Coming Soon"
     ];
     let textIndex = 0;
     let charIndex = 0;
