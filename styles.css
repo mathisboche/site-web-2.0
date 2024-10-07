@@ -1,0 +1,250 @@
+/* Importation des polices */
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Poppins:wght@300;600&display=swap');
+
+/* Reset de base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corps du document */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FAF8F6;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* Section Hero */
+.hero-section {
+    position: relative; /* Assurez-vous que le parent est positionné */
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    cursor: pointer; /* Indicateur que la section est interactive */
+}
+
+#background-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Placeholder de chargement */
+.loading-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #EFEFEF 25%, #DDDDDD 50%, #EFEFEF 75%);
+    background-size: 200% 100%;
+    animation: loadingAnimation 1.5s infinite;
+    z-index: 1;
+}
+
+@keyframes loadingAnimation {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Image de fond */
+.background-image {
+    position: absolute;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    background-size: cover;
+    background-position: 5% bottom;
+    opacity: 0; /* Conteneur initialement invisible */
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
+    animation: floatAnimation 20s infinite ease-in-out;
+}
+
+.background-image.loaded {
+    opacity: 1; /* Le conteneur devient visible */
+}
+
+@keyframes floatAnimation {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Canvas pour les particules */
+#particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Contenu du hero */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+/* Styles pour l'effet de ripple avancé */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple-effect 1s ease-out;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+}
+
+@keyframes ripple-effect {
+    to {
+        transform: scale(10);
+        opacity: 0;
+    }
+}
+
+/* Styles pour les particules */
+.particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particle-move 1s ease-out forwards;
+}
+
+@keyframes particle-move {
+    to {
+        transform: translate(var(--dx), var(--dy));
+        opacity: 0;
+    }
+}
+
+/* Styles pour les particules de traînée */
+.trail-particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 80%);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    animation: trail-animation 1s ease-out forwards;
+}
+
+@keyframes trail-animation {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2);
+    }
+}
+
+/* Titre principal */
+.main-title {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 3rem;
+    color: #fff;
+    opacity: 0;
+    animation:
+        fadeInUp 2s ease-in-out forwards,
+        subtleShake 5s infinite ease-in-out 2s;
+    /* text-shadow retiré */
+    filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0)); /* Ombre initialement transparente */
+    transition: filter 1s ease-in-out;
+}
+
+/* Sous-titre */
+.subtitle {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-top: 1rem;
+    opacity: 0;
+    animation:
+        fadeInUp 2s ease-in-out forwards 1s;
+    position: relative;
+    /* text-shadow retiré */
+    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0)); /* Ombre initialement transparente */
+    transition: filter 1s ease-in-out;
+}
+
+/* Classes pour les ombres ajoutées via JavaScript */
+.text-shadow-main {
+    text-shadow: 2px 2px 100px rgba(0, 0, 0, 0.5);
+}
+
+.text-shadow-sub {
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes subtleShake {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(1px, 0);
+    }
+    75% {
+        transform: translate(-1px, 0);
+    }
+}
+
+/* Animation pour les points de suspension */
+.subtitle::after {
+    content: '';
+    animation: dotsAnimation 2s infinite steps(4, end) 3s;
+    position: absolute;
+    margin-left: 5px;
+}
+
+@keyframes dotsAnimation {
+    0% {
+        content: '';
+    }
+    25% {
+        content: '.';
+    }
+    50% {
+        content: '..';
+    }
+    75% {
+        content: '...';
+    }
+    100% {
+        content: '';
+    }
+}
