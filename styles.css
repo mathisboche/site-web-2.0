@@ -22,7 +22,6 @@ body {
     width: 100%;
     height: 100vh;
     overflow: hidden;
-    cursor: pointer; /* Indicateur que la section est interactive */
 }
 
 #background-container {
@@ -140,25 +139,6 @@ body {
     to {
         transform: translate(var(--dx), var(--dy));
         opacity: 0;
-    }
-}
-
-/* Styles pour les particules de traînée */
-.trail-particle {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 80%);
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    animation: trail-animation 1s ease-out forwards;
-}
-
-@keyframes trail-animation {
-    to {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(2);
     }
 }
 
