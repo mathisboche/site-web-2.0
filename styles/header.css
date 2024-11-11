@@ -1,10 +1,21 @@
+/* Variables CSS pour la hauteur des barres et l'espacement */
+:root {
+    --bar-height: 4px; /* Hauteur de chaque barre */
+    --bar-spacing: 5px; /* Espacement entre les barres */
+    --bar-offset: calc(var(--bar-height) / 2);
+    --circle-height: 60px; /* Hauteur du cercle */
+    --overlay-color: rgba(253, 253, 253, 0.97); /* Couleur de l'overlay */
+    --transition-duration: 0.6s; /* Durée des transitions */
+    --transition-easing: cubic-bezier(0.4, 0, 0.2, 1); /* Fonction d'accélération */
+}
+
 /* Menu Hamburger Flottant */
 .menu-hamburger {
     position: fixed;
     bottom: 40px;
     right: 20px;
-    width: 60px;
-    height: 60px;
+    width: var(--circle-height);
+    height: var(--circle-height);
     background-color: #FDFDFD;
     border: 2px solid #E8E8E8;
     border-radius: 50%;
@@ -13,51 +24,64 @@
     align-items: center;
     cursor: pointer;
     z-index: 1000;
-  }
+}
   
-  /* Style commun aux barres */
-  .menu-hamburger .barre {
+/* Style commun aux barres */
+.menu-hamburger .barre {
     width: 30px;
-    height: 4px;
+    height: var(--bar-height);
     background-color: #1A1A40;
     position: absolute;
     border-radius: 2px;
     transition:
-      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      top 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.3s ease-in-out;
-  }
+        transform 0.4s var(--transition-easing),
+        top 0.4s var(--transition-easing),
+        opacity 0.3s ease-in-out;
+
+    /* Centrage horizontal */
+    left: 50%;
+    transform: translateX(-50%);
+}
   
-  /* Positions initiales des barres */
-  .menu-hamburger .barre:nth-child(1) {
-    top: 17px;
-  }
+.menu-hamburger .barre:nth-child(1) {
+    top: calc(
+        (var(--circle-height) - (3 * var(--bar-height) + 2 * var(--bar-spacing))) / 2
+        - var(--bar-offset)
+    );
+}
+
+.menu-hamburger .barre:nth-child(2) {
+    top: calc(
+        (var(--circle-height) - (3 * var(--bar-height) + 2 * var(--bar-spacing))) / 2
+        + var(--bar-height) + var(--bar-spacing)
+        - var(--bar-offset)
+    );
+}
+
+.menu-hamburger .barre:nth-child(3) {
+    top: calc(
+        (var(--circle-height) - (3 * var(--bar-height) + 2 * var(--bar-spacing))) / 2
+        + 2 * (var(--bar-height) + var(--bar-spacing))
+        - var(--bar-offset)
+    );
+}
   
-  .menu-hamburger .barre:nth-child(2) {
-    top: 26px;
-  }
-  
-  .menu-hamburger .barre:nth-child(3) {
-    top: 35px;
-  }
-  
-  /* État actif (menu ouvert) */
-  .menu-hamburger.active .barre:nth-child(1),
-  .menu-hamburger.active .barre:nth-child(3) {
-    top: 26px;
-  }
-  
-  .menu-hamburger.active .barre:nth-child(1) {
-    transform: rotate(45deg);
-  }
-  
-  .menu-hamburger.active .barre:nth-child(3) {
-    transform: rotate(-45deg);
-  }
-  
-  .menu-hamburger.active .barre:nth-child(2) {
+/* État actif (menu ouvert) */
+/* Styles pour l'état actif */
+.menu-hamburger.active .barre:nth-child(1) {
+    transform: translate(-50%, -50%) rotate(45deg);
+    top: 50%;
+}
+
+.menu-hamburger.active .barre:nth-child(2) {
     opacity: 0;
-  }
+    transform: translateX(-50%);
+}
+
+.menu-hamburger.active .barre:nth-child(3) {
+    transform: translate(-50%, -50%) rotate(-45deg);
+    top: 50%;
+}
   
   /* Navigation */
   .navigation {
