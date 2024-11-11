@@ -1,0 +1,199 @@
+/* En-tête */
+header {
+    background-color: #FDFDFD;
+    border-bottom: 1px solid #E8E8E8;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+}
+
+header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.site-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #1A1A40;
+    font-family: 'Playfair Display', serif;
+}
+
+/* Menu Hamburger avec animation fluide */
+.menu-hamburger {
+    width: 35px;
+    height: 30px;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  /* Style commun aux barres */
+  .barre {
+    width: 100%;
+    height: 4px;
+    background-color: #333;
+    position: absolute;
+    border-radius: 2.5px;
+    left: 0;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), top 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-in-out;
+  }
+  
+  /* Positions initiales des barres */
+  .barre:nth-child(1) {
+    top: 0;
+  }
+  
+  .barre:nth-child(2) {
+    top: 12.5px;
+  }
+  
+  .barre:nth-child(3) {
+    top: 25px;
+  }
+  
+  /* État actif (menu ouvert) */
+  .menu-hamburger.active .barre:nth-child(1),
+  .menu-hamburger.active .barre:nth-child(3) {
+    top: 12.5px;
+  }
+  
+  .menu-hamburger.active .barre:nth-child(1) {
+    transform: rotate(45deg);
+  }
+  
+  .menu-hamburger.active .barre:nth-child(3) {
+    transform: rotate(-45deg);
+  }
+  
+  .menu-hamburger.active .barre:nth-child(2) {
+    opacity: 0;
+  }
+    
+    
+  
+  
+  /* Navigation */
+  .navigation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background-color: rgba(253, 253, 253, 0.97);
+      overflow: hidden;
+      transition: height 0.5s ease;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .navigation.active {
+      height: 100%;
+  }
+  
+  .navigation ul {
+      list-style: none;
+      text-align: center;
+      padding: 0;
+  }
+  
+  .navigation li {
+      margin: 20px 0;
+      opacity: 0;
+      transform: translateY(-30px);
+  }
+  
+  .navigation.active li {
+      animation: menuFadeIn 0.6s forwards;
+      animation-delay: calc(0.2s * (var(--i) - 1));
+  }
+  
+  .navigation li.closing {
+      animation: menuFadeOut 0.6s forwards;
+      animation-delay: calc(0.2s * (var(--i) - 1));
+  }
+  
+  .navigation li:nth-child(1) {
+      --i: 1;
+  }
+  
+  .navigation li:nth-child(2) {
+      --i: 2;
+  }
+  
+  .navigation li:nth-child(3) {
+      --i: 3;
+  }
+  
+  .navigation li:nth-child(4) {
+      --i: 4;
+  }
+  
+  .navigation li:nth-child(5) {
+      --i: 5;
+  }
+  
+  @keyframes menuFadeIn {
+      from {
+          opacity: 0;
+          transform: translateY(-30px);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+  
+  @keyframes menuFadeOut {
+      from {
+          opacity: 1;
+          transform: translateY(0);
+      }
+      to {
+          opacity: 0;
+          transform: translateY(30px);
+      }
+  }
+  
+  .navigation a {
+      font-size: 2rem;
+      color: #2C2C2C;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      transition: color 0.3s;
+  }
+  
+  .navigation a:hover {
+      color: #D4AF37;
+  }
+  
+  /* Effet de flou sur l'arrière-plan lorsque le menu est ouvert */
+  body.menu-opened main,
+  body.menu-opened footer,
+  body.menu-opened .hero {
+      filter: blur(5px);
+      transition: filter 0.3s ease;
+  }
+  
+  /* Désactiver le défilement lorsque le menu est ouvert */
+  body.menu-opened {
+      overflow: hidden;
+  }
+
+@media (max-width: 768px) {
+    header .container {
+        justify-content: space-between;
+    }
+}

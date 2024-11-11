@@ -1,0 +1,262 @@
+/* Section Héros */
+.hero {
+    background-image: linear-gradient(rgba(26,26,64,0.5), rgba(26,26,64,0.5)), url('/images/hero-background.png');
+    background-size: cover;
+    background-position: center;
+    padding: 220px 0;
+    color: #FFFFFF;
+    text-align: center;
+    position: relative;
+    margin-top: 85px;
+}
+
+.hero h2 {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    font-family: 'Playfair Display', serif;
+}
+
+.hero .subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+.hero .btn {
+    background-color: #D4AF37;
+    color: #FFFFFF;
+    padding: 15px 40px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.hero .btn:hover {
+    background-color: #B38E30;
+}
+
+
+
+/* Section Aperçu du Parcours */
+.about {
+    padding: 80px 0;
+    text-align: center;
+    background-color: #FDFDFD;
+}
+
+.about p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #555555;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.about .btn {
+    background-color: #1A1A40;
+    color: #FFFFFF;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.about .btn:hover {
+    background-color: #151533;
+}
+
+/* Section Projets */
+.projects {
+    padding: 80px 0;
+    background-color: #E8E8E8;
+}
+
+.projects h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+    color: #1A1A40;
+    font-family: 'Playfair Display', serif;
+}
+
+.projects .project-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.projects .project-item {
+    flex: 1 1 calc(50% - 20px);
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.projects .project-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.projects .project-item h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #1A1A40;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.projects .project-item p {
+    font-size: 1rem;
+    color: #555555;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.projects .btn {
+    display: block;
+    width: fit-content;
+    margin: 60px auto 0;
+    background-color: #1A1A40;
+    color: #FFFFFF;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.projects .btn:hover {
+    background-color: #151533;
+}
+
+/* Section Passions */
+.passions {
+    padding: 80px 0;
+    background-color: #FDFDFD;
+}
+
+.passions h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+    color: #1A1A40;
+    font-family: 'Playfair Display', serif;
+}
+
+.passions .passion-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.passions .passion-item {
+    flex: 1 1 calc(33.333% - 26.66px);
+    text-align: center;
+    padding: 30px;
+    border: 1px solid #E8E8E8;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.passions .passion-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.passions .passion-item h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #1A1A40;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.passions .passion-item p {
+    font-size: 1rem;
+    color: #555555;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.passions .btn {
+    display: block;
+    width: fit-content;
+    margin: 60px auto 0;
+    background-color: #1A1A40;
+    color: #FFFFFF;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.passions .btn:hover {
+    background-color: #151533;
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 150px 0;
+    }
+
+    .hero h2 {
+        font-size: 2.5rem;
+    }
+
+    .hero .subtitle {
+        font-size: 1rem;
+    }
+
+    .about p {
+        font-size: 1rem;
+    }
+
+    .projects h2,
+    .passions h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    header .container {
+        justify-content: space-between;
+    }
+
+    .hero {
+        padding: 180px 0;
+    }
+
+    .hero h2 {
+        font-size: 3rem;
+    }
+
+    .hero .subtitle {
+        font-size: 1.3rem;
+    }
+
+    .projects .project-item,
+    .passions .passion-item {
+        flex: 1 1 100%;
+    }
+}
+
+/* Responsivité */
+@media (max-width: 1024px) {
+    .projects .project-item,
+    .passions .passion-item {
+        flex: 1 1 calc(50% - 20px);
+    }
+}
