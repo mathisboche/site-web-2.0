@@ -7,6 +7,30 @@
     --overlay-color: rgba(253, 253, 253, 0.97); /* Couleur de l'overlay */
     --transition-duration: 0.6s; /* Durée des transitions */
     --transition-easing: cubic-bezier(0.4, 0, 0.2, 1); /* Fonction d'accélération */
+    --press-scale: 0.95; /* Échelle pour l'effet d'enfoncement */
+}
+
+/* Keyframes pour l'animation "Pop" */
+@keyframes pop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    80% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Classe pour l'animation "Pop" */
+.pop-animation {
+    animation: pop 0.5s ease-out forwards;
 }
 
 /* Menu Hamburger Flottant */
@@ -24,6 +48,12 @@
     align-items: center;
     cursor: pointer;
     z-index: 1000;
+    transition: transform 0.1s ease; /* Transition pour l'effet d'enfoncement */
+}
+
+/* Effet d'enfoncement au clic */
+.menu-hamburger:active {
+    transform: scale(var(--press-scale));
 }
   
 /* Style commun aux barres */
@@ -82,100 +112,120 @@
     transform: translate(-50%, -50%) rotate(-45deg);
     top: 50%;
 }
+
+/* Élément pour l'overlay scaling */
+.menu-overlay {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 20px; /* Taille initiale du point */
+    height: 20px;
+    background-color: var(--overlay-color);
+    border-radius: 50%;
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 1s ease-out, opacity 0.5s ease-out;
+    z-index: 998; /* Derrière le menu hamburger */
+}
+
+.menu-overlay.active {
+    transform: scale(150); /* Ajustez cette valeur pour couvrir toute la page */
+    opacity: 1;
+}
   
-  /* Navigation */
-  .navigation {
+/* Navigation */
+.navigation {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 0;
-    background-color: rgba(253, 253, 253, 0.97);
+    height: 100%; /* Remplit toute la page lorsque active */
+    background-color: transparent; /* L'overlay prend la couleur */
     overflow: hidden;
-    transition: height 0.5s ease;
-    z-index: 999;
+    transition: opacity 0.5s ease;
+    z-index: 999; /* Au-dessus de l'overlay */
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .navigation.active {
-    height: 100%;
-  }
-  
-  .navigation ul {
+    opacity: 0;
+}
+
+.navigation.active {
+    opacity: 1;
+}
+
+.navigation ul {
     list-style: none;
     text-align: center;
     padding: 0;
-  }
-  
-  .navigation li {
+}
+
+.navigation li {
     margin: 20px 0;
     opacity: 0;
     transform: translateY(-30px);
-  }
-  
-  .navigation.active li {
+}
+
+.navigation.active li {
     animation: menuFadeIn 0.6s forwards;
     animation-delay: calc(0.2s * (var(--i) - 1));
-  }
-  
-  .navigation li.closing {
+}
+
+.navigation li.closing {
     animation: menuFadeOut 0.6s forwards;
     animation-delay: calc(0.2s * (var(--i) - 1));
-  }
-  
-  .navigation li:nth-child(1) { --i: 1; }
-  .navigation li:nth-child(2) { --i: 2; }
-  .navigation li:nth-child(3) { --i: 3; }
-  .navigation li:nth-child(4) { --i: 4; }
-  .navigation li:nth-child(5) { --i: 5; }
-  
-  @keyframes menuFadeIn {
+}
+
+.navigation li:nth-child(1) { --i: 1; }
+.navigation li:nth-child(2) { --i: 2; }
+.navigation li:nth-child(3) { --i: 3; }
+.navigation li:nth-child(4) { --i: 4; }
+.navigation li:nth-child(5) { --i: 5; }
+
+@keyframes menuFadeIn {
     from {
-      opacity: 0;
-      transform: translateY(-30px);
+        opacity: 0;
+        transform: translateY(-30px);
     }
     to {
-      opacity: 1;
-      transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
-  }
-  
-  @keyframes menuFadeOut {
+}
+
+@keyframes menuFadeOut {
     from {
-      opacity: 1;
-      transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
     to {
-      opacity: 0;
-      transform: translateY(30px);
+        opacity: 0;
+        transform: translateY(30px);
     }
-  }
-  
-  .navigation a {
+}
+
+.navigation a {
     font-size: 2rem;
     color: #2C2C2C;
     text-decoration: none;
     font-weight: 600;
     font-family: 'Montserrat', sans-serif;
     transition: color 0.3s;
-  }
-  
-  .navigation a:hover {
+}
+
+.navigation a:hover {
     color: #D4AF37;
-  }
-  
-  /* Effet de flou sur l'arrière-plan lorsque le menu est ouvert */
-  body.menu-opened main,
-  body.menu-opened footer,
-  body.menu-opened .hero {
+}
+
+/* Effet de flou sur l'arrière-plan lorsque le menu est ouvert */
+body.menu-opened main,
+body.menu-opened footer,
+body.menu-opened .hero {
     filter: blur(5px);
     transition: filter 0.3s ease;
-  }
-  
-  /* Désactiver le défilement lorsque le menu est ouvert */
-  body.menu-opened {
+}
+
+/* Désactiver le défilement lorsque le menu est ouvert */
+body.menu-opened {
     overflow: hidden;
-  }
-  
+}
