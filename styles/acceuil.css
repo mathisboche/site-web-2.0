@@ -1,6 +1,6 @@
 /* Section Héros */
 .hero {
-    background-image: linear-gradient(rgba(26,26,64,0.5), rgba(26,26,64,0.5)), url('/images/hero-background.png');
+    background-image: linear-gradient(rgba(26,26,64,0.5), rgba(26,26,64,0.5)), url('/images/hero-background-2.png');
     background-size: cover;
     background-position: center;
     padding: 220px 0;

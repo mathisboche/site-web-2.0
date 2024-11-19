@@ -129,7 +129,7 @@
 }
 
 .menu-overlay.active {
-    transform: scale(150); /* Ajustez cette valeur pour couvrir toute la page */
+    transform: scale(210); /* Ajustez cette valeur pour couvrir toute la page */
     opacity: 1;
 }
   
