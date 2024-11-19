@@ -133,31 +133,38 @@
     opacity: 1;
 }
   
-/* Navigation */
+/* Navigation par défaut (fermée) */
 .navigation {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%; /* Remplit toute la page lorsque active */
-    background-color: transparent; /* L'overlay prend la couleur */
+    height: 100%;
+    background-color: transparent;
     overflow: hidden;
-    transition: opacity 0.5s ease;
-    z-index: 999; /* Au-dessus de l'overlay */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
+    opacity: 0; /* Invisible */
+    visibility: hidden; /* Désactive l'élément */
+    pointer-events: none; /* Désactive les interactions */
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    z-index: 999; /* Ajustez selon votre design */
 }
 
+/* Navigation active (ouverte) */
 .navigation.active {
-    opacity: 1;
+    opacity: 1; /* Visible */
+    visibility: visible; /* Active l'élément */
+    pointer-events: auto; /* Active les interactions */
 }
 
 .navigation ul {
-    list-style: none;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0;
     padding: 0;
+    list-style: none;
 }
 
 .navigation li {
