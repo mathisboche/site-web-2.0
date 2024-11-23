@@ -15,7 +15,7 @@
     <h2>petites démos</h2>
 
     <h3>horloge en direct</h3>
-    <p>ok, regarde l’heure changer en temps réel (ça prouve que j’ai des bases en JS lol) :</p>
+    <p>ok, regarde l’heure changer en temps réel :</p>
     <div id="clock">chargement...</div>
     <script>
         function updateClock() {
@@ -27,35 +27,15 @@
         updateClock();
     </script>
 
-    <h3>calculatrice basique</h3>
-    <p>un petit formulaire pour jouer avec des chiffres :</p>
-    <form onsubmit="calculate(event)">
-        <input type="number" id="num1" placeholder="nombre 1" required>
-        <input type="number" id="num2" placeholder="nombre 2" required>
-        <select id="operator">
-            <option value="+">+</option>
-            <option value="-">-</option>
-            <option value="*">*</option>
-            <option value="/">/</option>
-        </select>
-        <button type="submit">calculer</button>
-    </form>
-    <p id="result"></p>
+    <h3>changer la couleur du fond</h3>
+    <p>clique sur un bouton pour changer la couleur du site :</p>
+    <button onclick="changeColor('lightblue')">Bleu</button>
+    <button onclick="changeColor('lightgreen')">Vert</button>
+    <button onclick="changeColor('lightpink')">Rose</button>
+    <button onclick="changeColor('white')">Reset</button>
     <script>
-        function calculate(event) {
-            event.preventDefault();
-            const num1 = parseFloat(document.getElementById('num1').value);
-            const num2 = parseFloat(document.getElementById('num2').value);
-            const operator = document.getElementById('operator').value;
-            let result;
-            switch (operator) {
-                case '+': result = num1 + num2; break;
-                case '-': result = num1 - num2; break;
-                case '*': result = num1 * num2; break;
-                case '/': result = num2 !== 0 ? num1 / num2 : 'erreur (division par 0)'; break;
-                default: result = 'opération inconnue';
-            }
-            document.getElementById('result').textContent = 'Résultat : ' + result;
+        function changeColor(color) {
+            document.body.style.backgroundColor = color;
         }
     </script>
 
@@ -65,6 +45,6 @@
         <li><a href="mailto:mathisboche@outlook.fr">me contacter</a></li>
     </ul>
 
-    <p>&copy; 2024 mathis boche - 100% html (et un peu de js bc c’est fun).</p>
+    <p>&copy; 2024 mathis boche - 100% html (avec une touche de js bc c’est fun).</p>
 </body>
 </html>
