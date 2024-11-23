@@ -6,27 +6,53 @@
 </head>
 <body>
     <h1>yo. t'es grillé.</h1>
-    <p>j'ai trouvé ton ip <span id="ip"></span>. pas ouf de la laisser traîner comme ça, hein ?</p>
-    <p>t'es peut-être à <span id="location"></span>. t'as reconnu ?</p>
-    <p>tu utilises <span id="browser"></span> sur <span id="os"></span>. sérieux, t'aurais pu faire mieux.</p>
-    <p>je vois que tu parles <span id="language"></span>. bonne langue, ou c'est google trad qui gère ?</p>
-    <p>ton écran est genre <span id="resolution"></span>. ça passe, mais upgrade un peu quand même.</p>
+    <p>j'ai trouvé ton ip <span id="ip"></span>. <span id="ip-comment"></span></p>
+    <p>t'es probablement dans la région <span id="region"></span>. <span id="region-comment"></span></p>
+    <p>tu utilises <span id="browser"></span> sur <span id="os"></span>. <span id="device-comment"></span></p>
+    <p>je vois que tu parles <span id="language"></span>. <span id="language-comment"></span></p>
+    <p>ton écran fait <span id="resolution"></span>. <span id="screen-comment"></span></p>
     <p>chez toi, il est <span id="time"></span>. <span id="time-comment"></span></p>
-    <p>et ta connexion ? <span id="connection"></span>. franchement, c'est correct ?</p>
+    <p>et ta connexion ? <span id="connection"></span>. <span id="connection-comment"></span></p>
 
     <script>
-        // ip et localisation
+        // ip et commentaires associés
         fetch('https://ipapi.co/json/')
             .then(res => res.json())
             .then(data => {
-                document.getElementById('ip').textContent = data.ip || 'inconnue';
-                const city = data.city || 'quelque part';
-                const region = data.region || 'nulle part';
-                const country = data.country_name || 'un autre monde';
-                document.getElementById('location').textContent = `${city}, ${region}, ${country}`;
+                const ip = data.ip || 'inconnue';
+                const region = data.region || 'quelque part';
+                document.getElementById('ip').textContent = ip;
+                document.getElementById('region').textContent = region;
+
+                // commentaires sur l'ip
+                let ipComment = "c'est gentil de laisser ton ip traîner.";
+                if (ip.startsWith("192.") || ip.startsWith("10.")) {
+                    ipComment = "ta petite ip locale, c'est mignon.";
+                } else if (ip.startsWith("172.")) {
+                    ipComment = "utiliser une ip privée, ça t'aide pas ici.";
+                } else {
+                    ipComment = "avec ça, je peux te retrouver. ou presque.";
+                }
+                document.getElementById('ip-comment').textContent = ipComment;
+
+                // commentaires sur la région
+                let regionComment = "on dirait un coin sympa.";
+                if (region.toLowerCase().includes("paris")) {
+                    regionComment = "ah, Paris, toujours bloqué dans les bouchons ?";
+                } else if (region.toLowerCase().includes("île-de-france")) {
+                    regionComment = "région parisienne, hein ? t'as l'air patient.";
+                } else if (region.toLowerCase().includes("normandie")) {
+                    regionComment = "normandie, j'espère que t'aimes la pluie.";
+                } else if (region === 'quelque part') {
+                    regionComment = "mystère, t'as caché ça bien.";
+                }
+                document.getElementById('region-comment').textContent = regionComment;
             })
             .catch(() => {
-                document.getElementById('location').textContent = 'je sais pas où, mais pas ici.';
+                document.getElementById('ip').textContent = 'impossible à détecter.';
+                document.getElementById('region').textContent = 'inconnue.';
+                document.getElementById('ip-comment').textContent = "t'as tout caché, malin.";
+                document.getElementById('region-comment').textContent = "même moi, je trouve rien.";
             });
 
         // navigateur et os
@@ -48,7 +74,20 @@
         document.getElementById('browser').textContent = browser;
         document.getElementById('os').textContent = os;
 
-        // langue
+        // commentaires navigateur/os
+        let deviceComment = "pas mal, mais y'a mieux.";
+        if (browser === "Chrome" && os === "Windows") {
+            deviceComment = "classique, mais t'as essayé un truc plus cool ?";
+        } else if (browser === "Firefox") {
+            deviceComment = "respect pour Firefox, t'es un vrai.";
+        } else if (os === "Linux") {
+            deviceComment = "ah, Linux ? le geek en toi est fier.";
+        } else if (os === "Android" || os === "iOS") {
+            deviceComment = "t'es sur ton tel, hein ?";
+        }
+        document.getElementById('device-comment').textContent = deviceComment;
+
+        // langue et commentaires
         const lang = navigator.language || 'inconnue';
         const langMap = {
             "fr": "français",
@@ -62,10 +101,32 @@
             "ar": "arabe"
         };
         const shortLang = lang.split('-')[0];
-        document.getElementById('language').textContent = langMap[shortLang] || 'une langue chelou';
+        const language = langMap[shortLang] || 'un truc chelou';
+        document.getElementById('language').textContent = language;
 
-        // résolution
-        document.getElementById('resolution').textContent = window.screen.width + ' x ' + window.screen.height;
+        let languageComment = "cool, j'aime bien.";
+        if (shortLang === "fr") {
+            languageComment = "la langue de Molière, ça passe.";
+        } else if (shortLang === "en") {
+            languageComment = "anglais, basique mais efficace.";
+        } else if (shortLang === "es") {
+            languageComment = "espagnol ? viva la vida, non ?";
+        } else if (shortLang === "zh") {
+            languageComment = "chinois, impressionnant.";
+        }
+        document.getElementById('language-comment').textContent = languageComment;
+
+        // résolution écran et commentaires
+        const resolution = `${window.screen.width} x ${window.screen.height}`;
+        document.getElementById('resolution').textContent = resolution;
+
+        let screenComment = "t'es bien équipé.";
+        if (window.screen.width < 1280) {
+            screenComment = "petit écran, faut penser à upgrader.";
+        } else if (window.screen.width >= 1920) {
+            screenComment = "écran large, le luxe.";
+        }
+        document.getElementById('screen-comment').textContent = screenComment;
 
         // heure et commentaire
         function updateTimeAndComment() {
@@ -74,38 +135,42 @@
             const minutes = now.getMinutes().toString().padStart(2, '0');
             document.getElementById('time').textContent = `${hours}h${minutes}`;
 
-            let comment = "t'as un horaire chelou.";
-            if (hours >= 6 && hours < 12) {
-                comment = "matinal, hein ?";
-            } else if (hours >= 12 && hours < 18) {
-                comment = "l'après-midi, c'est chill ?";
+            let comment = "sérieux, t'as encore les yeux ouverts ?";
+            if (hours >= 6 && hours < 9) {
+                comment = "déjà debout ? Café en main, j'espère.";
+            } else if (hours >= 9 && hours < 12) {
+                comment = "au boulot ou tu fais semblant ?";
+            } else if (hours >= 12 && hours < 14) {
+                comment = "pause déjeuner, j'espère.";
+            } else if (hours >= 14 && hours < 18) {
+                comment = "t'es censé bosser là.";
             } else if (hours >= 18 && hours < 22) {
-                comment = "soirée Netflix ou quoi ?";
+                comment = "soirée chill ou quoi ?";
             } else if (hours >= 22 || hours < 6) {
-                comment = "trop tard pour être sur internet.";
+                comment = "va te coucher, sérieux.";
             }
             document.getElementById('time-comment').textContent = comment;
         }
-        updateTimeAndComment(); // appelle une fois au chargement
-        setInterval(updateTimeAndComment, 60000); // met à jour toutes les minutes
+        updateTimeAndComment();
+        setInterval(updateTimeAndComment, 60000);
 
         // connexion
         function detectConnection() {
             if (navigator.connection && navigator.connection.effectiveType) {
                 const type = navigator.connection.effectiveType;
-                let connComment = "mystérieuse";
+                let connComment = "un mystère.";
                 if (type === "wifi") {
-                    connComment = "wifi, solide.";
+                    connComment = "wifi, classique.";
                 } else if (type === "4g" || type === "3g") {
-                    connComment = `${type}, t'es sur ton tel ?`;
+                    connComment = `${type}, en mode mobile.`;
                 } else if (type === "ethernet") {
-                    connComment = "ethernet, la base.";
-                } else {
-                    connComment = "chelou, on sait pas trop.";
+                    connComment = "ethernet, ça c'est pro.";
                 }
-                document.getElementById('connection').textContent = connComment;
+                document.getElementById('connection').textContent = type;
+                document.getElementById('connection-comment').textContent = connComment;
             } else {
-                document.getElementById('connection').textContent = "impossible à savoir. mystère.";
+                document.getElementById('connection').textContent = "inconnue";
+                document.getElementById('connection-comment').textContent = "je peux pas deviner.";
             }
         }
         detectConnection();
