@@ -6,11 +6,11 @@
 </head>
 <body>
     <h1>yo. t'es grillé.</h1>
-    <p>j'ai trouvé ton ip : <span id="ip"></span>. pas ouf de la laisser traîner comme ça, hein ?</p>
-    <p>tu utilises : <span id="browser"></span> sur <span id="os"></span>. sérieux, t'aurais pu faire mieux.</p>
-    <p>je vois que tu parles : <span id="language"></span>. bonne langue, ou c'est google trad qui gère ?</p>
-    <p>ton écran est genre : <span id="resolution"></span>. ça passe, mais upgrade un peu quand même.</p>
-    <p>chez toi, il est : <span id="time"></span>. t'as pas autre chose à faire ?</p>
+    <p>j'ai trouvé ton ip <span id="ip"></span>. pas ouf de la laisser traîner comme ça, hein ?</p>
+    <p>tu utilises <span id="browser"></span> sur <span id="os"></span>. sérieux, t'aurais pu faire mieux.</p>
+    <p>je vois que tu parles <span id="language"></span>. bonne langue, ou c'est google trad qui gère ?</p>
+    <p>ton écran est genre <span id="resolution"></span>. ça passe, mais upgrade un peu quand même.</p>
+    <p>chez toi, il est <span id="time"></span>. t'as pas autre chose à faire ?</p>
     <p>et ta connexion ? genre <span id="connection"></span>. wow, la fibre, c'est pour quand ?</p>
 
     <script>
@@ -44,7 +44,20 @@
         document.getElementById('os').textContent = os;
 
         // langue
-        document.getElementById('language').textContent = navigator.language || 'un truc chelou que je capte pas';
+        const lang = navigator.language || 'inconnue';
+        const langMap = {
+            "fr": "français",
+            "en": "anglais",
+            "es": "espagnol",
+            "de": "allemand",
+            "it": "italien",
+            "zh": "chinois",
+            "ja": "japonais",
+            "ru": "russe",
+            "ar": "arabe"
+        };
+        const shortLang = lang.split('-')[0];
+        document.getElementById('language').textContent = langMap[shortLang] || 'une langue chelou';
 
         // résolution
         document.getElementById('resolution').textContent = window.screen.width + ' x ' + window.screen.height;
