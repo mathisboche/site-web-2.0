@@ -3,6 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Scan en cours...</title>
+    <style>
+        body {
+            font-size: 16px;
+            margin: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        #scan-message {
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
     <h1>yo. t'es grillé.</h1>
@@ -193,21 +211,27 @@
                     const step = steps[currentStep];
                     updateScanMessage(step.message);
 
-                    // Affiche le scan message, puis attend avant d'afficher le résultat
+                    // Attendre un délai avant d'exécuter l'action
                     setTimeout(() => {
                         Promise.resolve(step.action()).then(result => {
                             addResult(result);
 
-                            // Attend un peu avant de passer à l'étape suivante
+                            // Incrémenter l'étape
+                            currentStep++;
+
+                            // Mettre à jour le message de scan pour l'étape suivante ou indiquer que le scan est terminé
+                            if (currentStep < steps.length) {
+                                updateScanMessage(steps[currentStep].message);
+                            } else {
+                                updateScanMessage('Scan terminé.');
+                            }
+
+                            // Passer à l'étape suivante après un délai
                             setTimeout(() => {
-                                currentStep++;
                                 nextStep();
                             }, 1000);
                         });
-                    }, 2000); // Délai avant d'exécuter l'action (temps pendant lequel le scan message est affiché)
-                } else {
-                    // Scan terminé
-                    updateScanMessage('Scan terminé.');
+                    }, 2000); // Délai pendant lequel le message de scan est affiché avant l'action
                 }
             }
 
@@ -215,7 +239,7 @@
             nextStep();
         }
 
-        // Démarrer le scan
+        // Appel de la fonction startScan() pour lancer le processus
         startScan();
     </script>
 </body>
