@@ -10,7 +10,7 @@
     <p>tu utilises <span id="browser"></span> sur <span id="os"></span>. sérieux, t'aurais pu faire mieux.</p>
     <p>je vois que tu parles <span id="language"></span>. bonne langue, ou c'est google trad qui gère ?</p>
     <p>ton écran est genre <span id="resolution"></span>. ça passe, mais upgrade un peu quand même.</p>
-    <p>chez toi, il est <span id="time"></span>. t'as pas autre chose à faire ?</p>
+    <p>chez toi, il est <span id="time"></span>. <span id="time-comment"></span></p>
     <p>et ta connexion ? genre <span id="connection"></span>. wow, la fibre, c'est pour quand ?</p>
 
     <script>
@@ -62,13 +62,27 @@
         // résolution
         document.getElementById('resolution').textContent = window.screen.width + ' x ' + window.screen.height;
 
-        // heure (mise à jour en temps réel)
-        function updateTime() {
+        // heure et commentaire
+        function updateTimeAndComment() {
             const now = new Date();
-            document.getElementById('time').textContent = now.toLocaleTimeString();
+            const hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}h${minutes}`;
+
+            let comment = "t'as un horaire chelou.";
+            if (hours >= 6 && hours < 12) {
+                comment = "matinal, hein ?";
+            } else if (hours >= 12 && hours < 18) {
+                comment = "l'après-midi, c'est chill ?";
+            } else if (hours >= 18 && hours < 22) {
+                comment = "soirée Netflix ou quoi ?";
+            } else if (hours >= 22 || hours < 6) {
+                comment = "trop tard pour être sur internet.";
+            }
+            document.getElementById('time-comment').textContent = comment;
         }
-        updateTime();
-        setInterval(updateTime, 1000);
+        updateTimeAndComment(); // appelle une fois au chargement
+        setInterval(updateTimeAndComment, 60000); // met à jour toutes les minutes
 
         // connexion
         if (navigator.connection && navigator.connection.effectiveType) {
