@@ -7,21 +7,26 @@
 <body>
     <h1>yo. t'es grillé.</h1>
     <p>j'ai trouvé ton ip <span id="ip"></span>. pas ouf de la laisser traîner comme ça, hein ?</p>
+    <p>t'es peut-être à <span id="location"></span>. t'as reconnu ?</p>
     <p>tu utilises <span id="browser"></span> sur <span id="os"></span>. sérieux, t'aurais pu faire mieux.</p>
     <p>je vois que tu parles <span id="language"></span>. bonne langue, ou c'est google trad qui gère ?</p>
     <p>ton écran est genre <span id="resolution"></span>. ça passe, mais upgrade un peu quand même.</p>
     <p>chez toi, il est <span id="time"></span>. <span id="time-comment"></span></p>
-    <p>et ta connexion ? genre <span id="connection"></span>. wow, la fibre, c'est pour quand ?</p>
+    <p>et ta connexion ? <span id="connection"></span>. franchement, c'est correct ?</p>
 
     <script>
-        // ip
-        fetch('https://api.ipify.org?format=json')
+        // ip et localisation
+        fetch('https://ipapi.co/json/')
             .then(res => res.json())
             .then(data => {
-                document.getElementById('ip').textContent = data.ip;
+                document.getElementById('ip').textContent = data.ip || 'inconnue';
+                const city = data.city || 'quelque part';
+                const region = data.region || 'nulle part';
+                const country = data.country_name || 'un autre monde';
+                document.getElementById('location').textContent = `${city}, ${region}, ${country}`;
             })
             .catch(() => {
-                document.getElementById('ip').textContent = 'ah bah non, j’ai rien trouvé. t’as de la chance.';
+                document.getElementById('location').textContent = 'je sais pas où, mais pas ici.';
             });
 
         // navigateur et os
@@ -85,11 +90,25 @@
         setInterval(updateTimeAndComment, 60000); // met à jour toutes les minutes
 
         // connexion
-        if (navigator.connection && navigator.connection.effectiveType) {
-            document.getElementById('connection').textContent = navigator.connection.effectiveType + ' (ça fait le taf, je suppose)';
-        } else {
-            document.getElementById('connection').textContent = 'mystère (mais sûrement pas ouf)';
+        function detectConnection() {
+            if (navigator.connection && navigator.connection.effectiveType) {
+                const type = navigator.connection.effectiveType;
+                let connComment = "mystérieuse";
+                if (type === "wifi") {
+                    connComment = "wifi, solide.";
+                } else if (type === "4g" || type === "3g") {
+                    connComment = `${type}, t'es sur ton tel ?`;
+                } else if (type === "ethernet") {
+                    connComment = "ethernet, la base.";
+                } else {
+                    connComment = "chelou, on sait pas trop.";
+                }
+                document.getElementById('connection').textContent = connComment;
+            } else {
+                document.getElementById('connection').textContent = "impossible à savoir. mystère.";
+            }
         }
+        detectConnection();
     </script>
 </body>
 </html>
