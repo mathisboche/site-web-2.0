@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Yo, t'es surveillé.</title>
+</head>
+<body>
+    <h1>yo. t'es grillé.</h1>
+    <p>j'ai trouvé ton ip : <span id="ip"></span>. pas ouf de la laisser traîner comme ça, hein ?</p>
+    <p>t'es sur : <span id="browser"></span>. sérieux, t'aurais pu choisir un meilleur navigateur.</p>
+    <p>je vois que tu parles : <span id="language"></span>. bonne langue, ou c'est google trad qui gère ?</p>
+    <p>ton écran est genre : <span id="resolution"></span>. ça passe, mais upgrade un peu quand même.</p>
+    <p>chez toi, il est : <span id="time"></span>. t'as pas autre chose à faire ?</p>
+    <p>et ta connexion ? genre <span id="connection"></span>. wow, la fibre, c'est pour quand ?</p>
+
+    <script>
+        // ip
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('ip').textContent = data.ip;
+            })
+            .catch(() => {
+                document.getElementById('ip').textContent = 'ah bah non, j’ai rien trouvé. t’as de la chance.';
+            });
+
+        // navigateur
+        document.getElementById('browser').textContent = navigator.userAgent;
+
+        // langue
+        document.getElementById('language').textContent = navigator.language || 'un truc chelou que je capte pas';
+
+        // résolution
+        document.getElementById('resolution').textContent = window.screen.width + ' x ' + window.screen.height;
+
+        // heure
+        document.getElementById('time').textContent = new Date().toLocaleTimeString();
+
+        // connexion
+        if (navigator.connection && navigator.connection.effectiveType) {
+            document.getElementById('connection').textContent = navigator.connection.effectiveType + ' (ça fait le taf, je suppose)';
+        } else {
+            document.getElementById('connection').textContent = 'mystère (mais sûrement pas ouf)';
+        }
+    </script>
+</body>
+</html>
