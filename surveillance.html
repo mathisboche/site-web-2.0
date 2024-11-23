@@ -35,34 +35,41 @@
             resultsDiv.appendChild(p);
         }
 
-        // récupérer l'ip et la région en priorité
+        // fonction pour récupérer les infos IP + région
         fetch('https://ipapi.co/json/')
             .then(res => res.json())
             .then(data => {
                 const ip = data.ip || 'inconnue';
                 const region = data.region || 'quelque part';
 
-                let ipComment = "c'est gentil de laisser ton ip traîner.";
+                const isMobile = /Mobile|Android|iP(hone|ad)/i.test(navigator.userAgent);
+
+                // commentaire sur l'ip
+                let ipComment = isMobile
+                    ? "ton tel laisse ton ip traîner comme un mégot."
+                    : "ton ip est publique. bien joué, sherlock.";
                 if (ip.startsWith("192.") || ip.startsWith("10.")) {
-                    ipComment = "ta petite ip locale, c'est mignon.";
-                } else if (ip.startsWith("172.")) {
-                    ipComment = "utiliser une ip privée, ça t'aide pas ici.";
-                } else {
-                    ipComment = "avec ça, je peux te retrouver. ou presque.";
+                    ipComment = isMobile
+                        ? "wifi local ? ça sent l'hôtel ou le café du coin."
+                        : "ip privée. tu bosses sur du réseau local, ou t'es perdu ?";
+                } else if (ip.startsWith("127.")) {
+                    ipComment = "loopback ? t'as un problème avec toi-même ?";
+                } else if (!ip) {
+                    ipComment = "pas d'ip détectée... vpn activé ? ou juste malin ?";
                 }
 
-                let regionComment = "ça a l'air sympa par là.";
+                // commentaire sur la région
+                let regionComment = isMobile
+                    ? `t'es là, à ${region}. t'es perdu ou t'attends quelqu'un ?`
+                    : `posé à ${region}. chill ou en stress ?`;
                 if (region.toLowerCase().includes("paris")) {
-                    regionComment = "ah, Paris, toujours bloqué dans les bouchons ?";
-                } else if (region.toLowerCase().includes("île-de-france")) {
-                    regionComment = "région parisienne, hein ? t'as l'air patient.";
+                    regionComment = "paris. coincé dans les bouchons ? classique.";
                 } else if (region.toLowerCase().includes("normandie")) {
-                    regionComment = "normandie, j'espère que t'aimes la pluie.";
-                } else if (region === 'quelque part') {
-                    regionComment = "mystère, t'as caché ça bien.";
+                    regionComment = "normandie. il pleut ? c'est chill.";
+                } else if (!region) {
+                    regionComment = "région inconnue. ninja détecté.";
                 }
 
-                // afficher ip et région
                 addResult(`j'ai trouvé ton ip ${ip}. ${ipComment}`);
                 addResult(`t'es probablement dans la région ${region}. ${regionComment}`);
             })
@@ -70,9 +77,11 @@
                 addResult("impossible de récupérer ton ip et ta localisation. malin, mais pas assez.");
             });
 
-        // afficher les autres infos immédiatement
-        function loadLocalInfo() {
-            // récupérer le navigateur et l'os
+        // fonction pour afficher les autres infos
+        function loadDeviceInfo() {
+            const isMobile = /Mobile|Android|iP(hone|ad)/i.test(navigator.userAgent);
+
+            // détecter le navigateur
             const userAgent = navigator.userAgent;
             let browser = "inconnu";
             if (userAgent.includes("Chrome")) browser = "Chrome";
@@ -81,6 +90,16 @@
             else if (userAgent.includes("Edge")) browser = "Edge";
             else if (userAgent.includes("Opera") || userAgent.includes("OPR")) browser = "Opera";
 
+            let browserComment = isMobile
+                ? `t'as ${browser} sur ton tel. bon choix, ou pas ?`
+                : `${browser} sur ton pc. classique, mais t'as rien de mieux ?`;
+            if (browser === "Firefox") {
+                browserComment = "firefox, hein ? respect.";
+            } else if (browser === "Edge") {
+                browserComment = "edge... microsoft te tient à la gorge ?";
+            }
+
+            // détecter l'os
             let os = "inconnu";
             if (userAgent.includes("Windows")) os = "Windows";
             else if (userAgent.includes("Mac")) os = "macOS";
@@ -88,20 +107,19 @@
             else if (userAgent.includes("Android")) os = "Android";
             else if (userAgent.includes("iPhone") || userAgent.includes("iPad")) os = "iOS";
 
-            let deviceComment = "pas mal, mais y'a mieux.";
-            if (browser === "Chrome" && os === "Windows") {
-                deviceComment = "classique, mais t'as essayé un truc plus cool ?";
-            } else if (browser === "Firefox") {
-                deviceComment = "respect pour Firefox, t'es un vrai.";
-            } else if (os === "Linux") {
-                deviceComment = "ah, Linux ? le geek en toi est fier.";
-            } else if (os === "Android" || os === "iOS") {
-                deviceComment = "t'es sur ton tel, hein ?";
+            let osComment = isMobile
+                ? `ton tel tourne sous ${os}. ça passe.`
+                : `ton pc est sur ${os}. bon choix ? on verra.`;
+            if (os === "Linux") {
+                osComment = "linux. laisse-moi deviner : t'as un serveur dans le salon ?";
+            } else if (os === "Windows") {
+                osComment = "windows... laisse-moi deviner : t'as encore forcé une mise à jour ?";
             }
-            addResult(`tu utilises ${browser} sur ${os}. ${deviceComment}`);
 
-            // récupérer la langue
-            const lang = navigator.language || 'inconnue';
+            addResult(`tu utilises ${browser} sur ${os}. ${browserComment} ${osComment}`);
+
+            // détecter la langue
+            const lang = navigator.language || "inconnue";
             const langMap = {
                 "fr": "français",
                 "en": "anglais",
@@ -114,65 +132,48 @@
                 "ar": "arabe"
             };
             const shortLang = lang.split('-')[0];
-            const language = langMap[shortLang] || 'un truc chelou';
+            const language = langMap[shortLang] || "un truc chelou";
 
-            let languageComment = "cool, j'aime bien.";
-            if (shortLang === "fr") {
-                languageComment = "la langue de Molière, ça passe.";
-            } else if (shortLang === "en") {
-                languageComment = "anglais, basique mais efficace.";
-            } else if (shortLang === "es") {
-                languageComment = "espagnol ? viva la vida, non ?";
-            } else if (shortLang === "zh") {
-                languageComment = "chinois, impressionnant.";
+            let langComment = isMobile
+                ? `ta langue c'est ${language}, sur tel. logique.`
+                : `${language} sur pc. molière est fier.`;
+            if (shortLang === "zh") {
+                langComment = "chinois ? impressionnant, mais pourquoi ?";
+            } else if (shortLang === "ru") {
+                langComment = "russe. vodka time ?";
             }
-            addResult(`je vois que tu parles ${language}. ${languageComment}`);
 
-            // récupérer la résolution d'écran
+            addResult(`je vois que tu parles ${language}. ${langComment}`);
+
+            // détecter la résolution
             const resolution = `${window.screen.width} x ${window.screen.height}`;
-            let screenComment = "t'es bien équipé.";
+            let resolutionComment = isMobile
+                ? "petit écran, mais c'est un tel. ça passe."
+                : "grande résolution. gamer ou juste blindé ?";
             if (window.screen.width < 1280) {
-                screenComment = "petit écran, faut penser à upgrader.";
-            } else if (window.screen.width >= 1920) {
-                screenComment = "écran large, le luxe.";
+                resolutionComment = isMobile
+                    ? "écran minuscule. t'as un nokia 3310 ou quoi ?"
+                    : "pc avec petit écran. upgrade, sérieux.";
             }
-            addResult(`ton écran fait ${resolution}. ${screenComment}`);
 
-            // récupérer l'heure locale
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            let timeComment = "sérieux, t'as encore les yeux ouverts ?";
-            if (hours >= 6 && hours < 9) {
-                timeComment = "déjà debout ? Café en main, j'espère.";
-            } else if (hours >= 9 && hours < 12) {
-                timeComment = "au boulot ou tu fais semblant ?";
-            } else if (hours >= 12 && hours < 14) {
-                timeComment = "pause déjeuner, j'espère.";
-            } else if (hours >= 14 && hours < 18) {
-                timeComment = "t'es censé bosser là.";
-            } else if (hours >= 18 && hours < 22) {
-                timeComment = "soirée chill ou quoi ?";
-            } else if (hours >= 22 || hours < 6) {
-                timeComment = "va te coucher, sérieux.";
-            }
-            addResult(`chez toi, il est ${hours}h${minutes}. ${timeComment}`);
+            addResult(`ton écran fait ${resolution}. ${resolutionComment}`);
 
-            // récupérer la connexion
-            const connection = navigator.connection?.effectiveType || 'inconnue';
-            let connectionComment = "ça fonctionne ?";
+            // détecter la connexion
+            const connection = navigator.connection?.effectiveType || "inconnue";
+            let connectionComment = isMobile
+                ? `${connection} sur tel. ça galère, non ?`
+                : `${connection} sur pc. sérieux ou amateur ?`;
             if (connection === "wifi") {
-                connectionComment = "wifi, classique.";
-            } else if (connection === "4g" || connection === "3g") {
-                connectionComment = `${connection}, en mode mobile.`;
+                connectionComment = "wifi. ça fait le taf.";
             } else if (connection === "ethernet") {
-                connectionComment = "ethernet, ça c'est pro.";
+                connectionComment = "ethernet. pro setup ? ou gamer frustré ?";
             }
+
             addResult(`et ta connexion ? ${connection}. ${connectionComment}`);
         }
 
         // charger les infos locales
-        loadLocalInfo();
+        loadDeviceInfo();
     </script>
 </body>
 </html>
