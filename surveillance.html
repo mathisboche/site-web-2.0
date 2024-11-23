@@ -12,13 +12,13 @@
     <div id="scan-message"></div>
 
     <script>
-        // fonction pour afficher un message de scan en bas
+        // Fonction pour afficher un message de scan en bas
         function updateScanMessage(message) {
             const scanDiv = document.getElementById('scan-message');
             scanDiv.textContent = message;
         }
 
-        // fonction pour ajouter une info dans les résultats
+        // Fonction pour ajouter une info dans les résultats
         function addResult(content) {
             const resultsDiv = document.getElementById('results');
             const p = document.createElement('p');
@@ -26,7 +26,7 @@
             resultsDiv.appendChild(p);
         }
 
-        // fonction principale pour orchestrer les étapes
+        // Fonction principale pour orchestrer les étapes
         function startScan() {
             const steps = [
                 {
@@ -99,7 +99,7 @@
                         } else if (os === "Android" || os === "iOS") {
                             deviceComment = "t'es sur ton tel, hein ?";
                         }
-                        return `tu utilises ${browser} sur ${os}. ${deviceComment}`;
+                        return Promise.resolve(`tu utilises ${browser} sur ${os}. ${deviceComment}`);
                     }
                 },
                 {
@@ -130,7 +130,7 @@
                         } else if (shortLang === "zh") {
                             languageComment = "chinois, impressionnant.";
                         }
-                        return `je vois que tu parles ${language}. ${languageComment}`;
+                        return Promise.resolve(`je vois que tu parles ${language}. ${languageComment}`);
                     }
                 },
                 {
@@ -143,7 +143,7 @@
                         } else if (window.screen.width >= 1920) {
                             screenComment = "écran large, le luxe.";
                         }
-                        return `ton écran fait ${resolution}. ${screenComment}`;
+                        return Promise.resolve(`ton écran fait ${resolution}. ${screenComment}`);
                     }
                 },
                 {
@@ -166,7 +166,7 @@
                         } else if (hours >= 22 || hours < 6) {
                             comment = "va te coucher, sérieux.";
                         }
-                        return `chez toi, il est ${hours}h${minutes}. ${comment}`;
+                        return Promise.resolve(`chez toi, il est ${hours}h${minutes}. ${comment}`);
                     }
                 },
                 {
@@ -181,26 +181,41 @@
                         } else if (connection === "ethernet") {
                             connectionComment = "ethernet, ça c'est pro.";
                         }
-                        return `et ta connexion ? ${connection}. ${connectionComment}`;
+                        return Promise.resolve(`et ta connexion ? ${connection}. ${connectionComment}`);
                     }
                 }
             ];
 
-            // exécuter chaque étape séquentiellement
-            let delay = 0;
-            steps.forEach(step => {
-                setTimeout(() => {
-                    updateScanMessage(step.message);
-                    step.action().then(result => addResult(result));
-                }, delay);
-                delay += 2000;
-            });
+            let currentStep = 0;
 
-            // scan terminé
-            setTimeout(() => updateScanMessage('Scan terminé.'), delay);
+            function nextStep() {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    updateScanMessage(step.message);
+
+                    // Affiche le scan message, puis attend avant d'afficher le résultat
+                    setTimeout(() => {
+                        Promise.resolve(step.action()).then(result => {
+                            addResult(result);
+
+                            // Attend un peu avant de passer à l'étape suivante
+                            setTimeout(() => {
+                                currentStep++;
+                                nextStep();
+                            }, 1000);
+                        });
+                    }, 2000); // Délai avant d'exécuter l'action (temps pendant lequel le scan message est affiché)
+                } else {
+                    // Scan terminé
+                    updateScanMessage('Scan terminé.');
+                }
+            }
+
+            // Démarrer le scan
+            nextStep();
         }
 
-        // démarrer le scan
+        // Démarrer le scan
         startScan();
     </script>
 </body>
