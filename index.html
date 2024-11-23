@@ -6,7 +6,6 @@
     <title>Mathis Boche</title>
     <style>
         /* Styles uniquement pour les démos */
-        /* Styles pour le labyrinthe */
         #maze {
             display: grid;
             grid-template-columns: repeat(21, 1fr); /* 21 colonnes pour un labyrinthe de 21x21 */
@@ -57,16 +56,18 @@
     <h2>petite démo</h2>
 
     <h3>générateur de labyrinthe avec solveur</h3>
-    <p>clique sur le bouton pour générer un nouveau labyrinthe et voir le solveur en action :</p>
+    <p>clique sur le bouton pour générer un nouveau labyrinthe :</p>
     <button onclick="generateMaze()">nouveau labyrinthe</button>
+    <p>clique sur le bouton ci-dessous pour lancer le solveur :</p>
+    <button onclick="solveMaze()">lancer le solveur</button>
     <div id="maze"></div>
     <script>
         let maze = [];
         let mazeContainer;
         const rows = 21, cols = 21; // Dimensions impaires pour un labyrinthe parfait
         const delay = 30; // Délai en ms pour l'animation du solveur
+        let solveEnabled = false; // Contrôle si le solveur peut être lancé
 
-        // Déplacer la fonction shuffleArray() ici pour qu'elle soit accessible globalement
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -78,6 +79,7 @@
             mazeContainer = document.getElementById("maze");
             mazeContainer.innerHTML = '';
             maze = [];
+            solveEnabled = false; // Réinitialiser le contrôle du solveur
             // Initialiser le labyrinthe avec des murs
             for (let i = 0; i < rows; i++) {
                 maze[i] = [];
@@ -135,12 +137,16 @@
             document.getElementById('cell-1-0').classList.add('start');
             document.getElementById('cell-' + (rows - 2) + '-' + (cols - 1)).classList.add('end');
 
-            // Lancer le solveur
-            solveMaze();
+            solveEnabled = true; // Autoriser le solveur
         }
 
         // Fonction pour résoudre le labyrinthe
         function solveMaze() {
+            if (!solveEnabled) {
+                alert("Génère un labyrinthe avant de lancer le solveur !");
+                return;
+            }
+
             const queue = [];
             const visited = [];
             for (let i = 0; i < rows; i++) {
@@ -190,7 +196,7 @@
                         { dx: 0, dy: 1 }   // droite
                     ];
 
-                    shuffleArray(directions); // Maintenant accessible depuis solveMaze()
+                    shuffleArray(directions);
 
                     for (let i = 0; i < directions.length; i++) {
                         const nx = x + directions[i].dx;
@@ -232,12 +238,19 @@
         generateMaze();
     </script>
 
-<h2>liens</h2>
-<ul>
-    <li><a href="https://github.com/mathisboche" target="_blank">mon github</a></li>
-    <li><a href="mailto:mathisboche@outlook.fr">me contacter</a></li>
-</ul>
+    <section>
+        <h2>envie de découvrir un truc flippant ?</h2>
+        <p>je peux te montrer ce que je sais sur toi. ça te tente ?</p>
+        <a href="surveillance.html" target="_blank">clique ici, si t'oses.</a>
+    </section>
 
-<p>&copy; 2024 mathis boche - 100% html avec un soupçon de css pour les démos.</p>
+
+    <h2>liens</h2>
+    <ul>
+        <li><a href="https://github.com/mathisboche" target="_blank">mon github</a></li>
+        <li><a href="mailto:mathisboche@outlook.fr">me contacter</a></li>
+    </ul>
+
+    <p>&copy; 2024 mathis boche - 100% html avec un soupçon de css pour les démos.</p>
 </body>
 </html>

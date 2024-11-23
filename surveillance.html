@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Scan en cours...</title>
+</head>
+<body>
+    <h1>yo. t'es grillé.</h1>
+    <div id="results">
+        <!-- Les résultats apparaîtront ici, étape par étape -->
+    </div>
+    <div id="scan-message"></div>
+
+    <script>
+        // fonction pour afficher un message de scan en bas
+        function updateScanMessage(message) {
+            const scanDiv = document.getElementById('scan-message');
+            scanDiv.textContent = message;
+        }
+
+        // fonction pour ajouter une info dans les résultats
+        function addResult(content) {
+            const resultsDiv = document.getElementById('results');
+            const p = document.createElement('p');
+            p.textContent = content;
+            resultsDiv.appendChild(p);
+        }
+
+        // fonction principale pour orchestrer les étapes
+        function startScan() {
+            const steps = [
+                {
+                    message: 'Scan de l\'IP...',
+                    action: () => {
+                        return fetch('https://ipapi.co/json/')
+                            .then(res => res.json())
+                            .then(data => {
+                                const ip = data.ip || 'inconnue';
+                                let ipComment = "c'est gentil de laisser ton ip traîner.";
+                                if (ip.startsWith("192.") || ip.startsWith("10.")) {
+                                    ipComment = "ta petite ip locale, c'est mignon.";
+                                } else if (ip.startsWith("172.")) {
+                                    ipComment = "utiliser une ip privée, ça t'aide pas ici.";
+                                } else {
+                                    ipComment = "avec ça, je peux te retrouver. ou presque.";
+                                }
+                                return `j'ai trouvé ton ip ${ip}. ${ipComment}`;
+                            })
+                            .catch(() => "impossible de récupérer ton ip. malin, mais pas assez.");
+                    }
+                },
+                {
+                    message: 'Scan de la localisation...',
+                    action: () => {
+                        return fetch('https://ipapi.co/json/')
+                            .then(res => res.json())
+                            .then(data => {
+                                const region = data.region || 'quelque part';
+                                let regionComment = "ça a l'air sympa par là.";
+                                if (region.toLowerCase().includes("paris")) {
+                                    regionComment = "ah, Paris, toujours bloqué dans les bouchons ?";
+                                } else if (region.toLowerCase().includes("île-de-france")) {
+                                    regionComment = "région parisienne, hein ? t'as l'air patient.";
+                                } else if (region.toLowerCase().includes("normandie")) {
+                                    regionComment = "normandie, j'espère que t'aimes la pluie.";
+                                } else if (region === 'quelque part') {
+                                    regionComment = "mystère, t'as caché ça bien.";
+                                }
+                                return `t'es probablement dans la région ${region}. ${regionComment}`;
+                            })
+                            .catch(() => "impossible de récupérer ta localisation. bien joué.");
+                    }
+                },
+                {
+                    message: 'Scan du navigateur et du système...',
+                    action: () => {
+                        const userAgent = navigator.userAgent;
+                        let browser = "inconnu";
+                        if (userAgent.includes("Chrome")) browser = "Chrome";
+                        else if (userAgent.includes("Firefox")) browser = "Firefox";
+                        else if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) browser = "Safari";
+                        else if (userAgent.includes("Edge")) browser = "Edge";
+                        else if (userAgent.includes("Opera") || userAgent.includes("OPR")) browser = "Opera";
+
+                        let os = "inconnu";
+                        if (userAgent.includes("Windows")) os = "Windows";
+                        else if (userAgent.includes("Mac")) os = "macOS";
+                        else if (userAgent.includes("Linux")) os = "Linux";
+                        else if (userAgent.includes("Android")) os = "Android";
+                        else if (userAgent.includes("iPhone") || userAgent.includes("iPad")) os = "iOS";
+
+                        let deviceComment = "pas mal, mais y'a mieux.";
+                        if (browser === "Chrome" && os === "Windows") {
+                            deviceComment = "classique, mais t'as essayé un truc plus cool ?";
+                        } else if (browser === "Firefox") {
+                            deviceComment = "respect pour Firefox, t'es un vrai.";
+                        } else if (os === "Linux") {
+                            deviceComment = "ah, Linux ? le geek en toi est fier.";
+                        } else if (os === "Android" || os === "iOS") {
+                            deviceComment = "t'es sur ton tel, hein ?";
+                        }
+                        return `tu utilises ${browser} sur ${os}. ${deviceComment}`;
+                    }
+                },
+                {
+                    message: 'Scan de la langue...',
+                    action: () => {
+                        const lang = navigator.language || 'inconnue';
+                        const langMap = {
+                            "fr": "français",
+                            "en": "anglais",
+                            "es": "espagnol",
+                            "de": "allemand",
+                            "it": "italien",
+                            "zh": "chinois",
+                            "ja": "japonais",
+                            "ru": "russe",
+                            "ar": "arabe"
+                        };
+                        const shortLang = lang.split('-')[0];
+                        const language = langMap[shortLang] || 'un truc chelou';
+
+                        let languageComment = "cool, j'aime bien.";
+                        if (shortLang === "fr") {
+                            languageComment = "la langue de Molière, ça passe.";
+                        } else if (shortLang === "en") {
+                            languageComment = "anglais, basique mais efficace.";
+                        } else if (shortLang === "es") {
+                            languageComment = "espagnol ? viva la vida, non ?";
+                        } else if (shortLang === "zh") {
+                            languageComment = "chinois, impressionnant.";
+                        }
+                        return `je vois que tu parles ${language}. ${languageComment}`;
+                    }
+                },
+                {
+                    message: 'Scan de la résolution d\'écran...',
+                    action: () => {
+                        const resolution = `${window.screen.width} x ${window.screen.height}`;
+                        let screenComment = "t'es bien équipé.";
+                        if (window.screen.width < 1280) {
+                            screenComment = "petit écran, faut penser à upgrader.";
+                        } else if (window.screen.width >= 1920) {
+                            screenComment = "écran large, le luxe.";
+                        }
+                        return `ton écran fait ${resolution}. ${screenComment}`;
+                    }
+                },
+                {
+                    message: 'Scan de l\'heure locale...',
+                    action: () => {
+                        const now = new Date();
+                        const hours = now.getHours();
+                        const minutes = now.getMinutes().toString().padStart(2, '0');
+                        let comment = "sérieux, t'as encore les yeux ouverts ?";
+                        if (hours >= 6 && hours < 9) {
+                            comment = "déjà debout ? Café en main, j'espère.";
+                        } else if (hours >= 9 && hours < 12) {
+                            comment = "au boulot ou tu fais semblant ?";
+                        } else if (hours >= 12 && hours < 14) {
+                            comment = "pause déjeuner, j'espère.";
+                        } else if (hours >= 14 && hours < 18) {
+                            comment = "t'es censé bosser là.";
+                        } else if (hours >= 18 && hours < 22) {
+                            comment = "soirée chill ou quoi ?";
+                        } else if (hours >= 22 || hours < 6) {
+                            comment = "va te coucher, sérieux.";
+                        }
+                        return `chez toi, il est ${hours}h${minutes}. ${comment}`;
+                    }
+                },
+                {
+                    message: 'Scan de la connexion...',
+                    action: () => {
+                        const connection = navigator.connection?.effectiveType || 'inconnue';
+                        let connectionComment = "ça fonctionne ?";
+                        if (connection === "wifi") {
+                            connectionComment = "wifi, classique.";
+                        } else if (connection === "4g" || connection === "3g") {
+                            connectionComment = `${connection}, en mode mobile.`;
+                        } else if (connection === "ethernet") {
+                            connectionComment = "ethernet, ça c'est pro.";
+                        }
+                        return `et ta connexion ? ${connection}. ${connectionComment}`;
+                    }
+                }
+            ];
+
+            // exécuter chaque étape séquentiellement
+            let delay = 0;
+            steps.forEach(step => {
+                setTimeout(() => {
+                    updateScanMessage(step.message);
+                    step.action().then(result => addResult(result));
+                }, delay);
+                delay += 2000;
+            });
+
+            // scan terminé
+            setTimeout(() => updateScanMessage('Scan terminé.'), delay);
+        }
+
+        // démarrer le scan
+        startScan();
+    </script>
+</body>
+</html>
