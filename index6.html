@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathis Boche</title>
+    <style>
+        /* Styles uniquement pour les démos */
+        #maze {
+            display: grid;
+            grid-template-columns: repeat(21, 1fr); /* 21 colonnes pour un labyrinthe de 21x21 */
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+        #maze div {
+            width: 100%;
+            padding-top: 100%; /* Maintenir un ratio 1:1 */
+            position: relative;
+        }
+        #maze div::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        .wall::after {
+            background-color: #333;
+        }
+        .path::after {
+            background-color: #fff;
+        }
+        .start::after {
+            background-color: #4caf50; /* Vert pour le départ */
+        }
+        .end::after {
+            background-color: #f44336; /* Rouge pour l'arrivée */
+        }
+        .visited::after {
+            background-color: #2196f3; /* Bleu pour les cases visitées */
+        }
+        .current::after {
+            background-color: #ffeb3b; /* Jaune pour la position actuelle */
+        }
+    </style>
+</head>
+<body>
+    <h1>salut, c’est mathis</h1>
+    <p>bienvenue sur mon site perso. c’est simple, c’est en html, et ça me suffit.</p>
+
+    <h2>à propos</h2>
+    <p>je suis étudiant, passionné par la programmation et les échecs (1700 élo). ici, je partage quelques démos pour le fun.</p>
+
+    <h2>petite démo</h2>
+
+    <h3>générateur de labyrinthe avec solveur</h3>
+    <p>clique sur le bouton pour générer un nouveau labyrinthe :</p>
+    <button onclick="generateMaze()">nouveau labyrinthe</button>
+    <p>clique sur le bouton ci-dessous pour lancer le solveur :</p>
+    <button onclick="solveMaze()">lancer le solveur</button>
+    <div id="maze"></div>
+    <script>
+        let maze = [];
+        let mazeContainer;
+        const rows = 21, cols = 21; // Dimensions impaires pour un labyrinthe parfait
+        const delay = 30; // Délai en ms pour l'animation du solveur
+        let solveEnabled = false; // Contrôle si le solveur peut être lancé
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function generateMaze() {
+            mazeContainer = document.getElementById("maze");
+            mazeContainer.innerHTML = '';
+            maze = [];
+            solveEnabled = false; // Réinitialiser le contrôle du solveur
+            // Initialiser le labyrinthe avec des murs
+            for (let i = 0; i < rows; i++) {
+                maze[i] = [];
+                for (let j = 0; j < cols; j++) {
+                    maze[i][j] = 1; // 1 représente un mur
+                }
+            }
+
+            // Fonction de génération du labyrinthe
+            function carvePassagesFrom(x, y) {
+                const directions = [
+                    [-2, 0], // haut
+                    [2, 0],  // bas
+                    [0, -2], // gauche
+                    [0, 2]   // droite
+                ];
+
+                shuffleArray(directions);
+
+                for (let i = 0; i < directions.length; i++) {
+                    const dx = directions[i][0];
+                    const dy = directions[i][1];
+                    const nx = x + dx;
+                    const ny = y + dy;
+
+                    if (nx > 0 && nx < rows - 1 && ny > 0 && ny < cols -1 && maze[nx][ny] === 1) {
+                        maze[nx][ny] = 0;
+                        maze[x + dx / 2][y + dy / 2] = 0;
+                        carvePassagesFrom(nx, ny);
+                    }
+                }
+            }
+
+            // Commencer la génération à une position fixe
+            const startX = 1;
+            const startY = 1;
+            maze[startX][startY] = 0;
+            carvePassagesFrom(startX, startY);
+
+            // Définir le point de départ et d'arrivée
+            maze[1][0] = 0; // entrée
+            maze[rows - 2][cols - 1] = 0; // sortie
+
+            // Afficher le labyrinthe
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    const cell = document.createElement("div");
+                    cell.id = 'cell-' + i + '-' + j;
+                    cell.classList.add(maze[i][j] === 1 ? 'wall' : 'path');
+                    mazeContainer.appendChild(cell);
+                }
+            }
+
+            // Ajouter les classes pour le départ et l'arrivée
+            document.getElementById('cell-1-0').classList.add('start');
+            document.getElementById('cell-' + (rows - 2) + '-' + (cols - 1)).classList.add('end');
+
+            solveEnabled = true; // Autoriser le solveur
+        }
+
+        // Fonction pour résoudre le labyrinthe
+        function solveMaze() {
+            if (!solveEnabled) {
+                alert("Génère un labyrinthe avant de lancer le solveur !");
+                return;
+            }
+
+            const queue = [];
+            const visited = [];
+            for (let i = 0; i < rows; i++) {
+                visited[i] = [];
+                for (let j = 0; j < cols; j++) {
+                    visited[i][j] = false;
+                }
+            }
+
+            let current = { x: 1, y: 0, path: [] };
+            queue.push(current);
+            visited[current.x][current.y] = true;
+
+            function step() {
+                if (queue.length === 0) {
+                    // Pas de chemin trouvé
+                    return;
+                }
+
+                current = queue.shift();
+                const { x, y, path } = current;
+
+                // Mettre à jour l'affichage
+                const cellId = 'cell-' + x + '-' + y;
+                const cellElement = document.getElementById(cellId);
+
+                if (cellElement) {
+                    cellElement.classList.add('current');
+                }
+
+                setTimeout(() => {
+                    if (cellElement) {
+                        cellElement.classList.remove('current');
+                        cellElement.classList.add('visited');
+                    }
+
+                    if (x === rows - 2 && y === cols -1) {
+                        // Arrivé à la fin
+                        highlightPath(path.concat([{ x, y }]));
+                        return;
+                    }
+
+                    const directions = [
+                        { dx: -1, dy: 0 }, // haut
+                        { dx: 1, dy: 0 },  // bas
+                        { dx: 0, dy: -1 }, // gauche
+                        { dx: 0, dy: 1 }   // droite
+                    ];
+
+                    shuffleArray(directions);
+
+                    for (let i = 0; i < directions.length; i++) {
+                        const nx = x + directions[i].dx;
+                        const ny = y + directions[i].dy;
+
+                        if (nx >= 0 && nx < rows && ny >= 0 && ny < cols &&
+                            maze[nx][ny] === 0 && !visited[nx][ny]) {
+                            visited[nx][ny] = true;
+                            queue.push({ x: nx, y: ny, path: path.concat([{ x, y }]) });
+                        }
+                    }
+
+                    // Continuer le parcours
+                    step();
+                }, delay);
+            }
+
+            step();
+        }
+
+        // Fonction pour mettre en évidence le chemin trouvé
+        function highlightPath(path) {
+            let index = 0;
+            function highlightStep() {
+                if (index >= path.length) return;
+                const { x, y } = path[index];
+                const cellId = 'cell-' + x + '-' + y;
+                const cellElement = document.getElementById(cellId);
+                if (cellElement) {
+                    cellElement.classList.add('current');
+                }
+                index++;
+                setTimeout(highlightStep, delay);
+            }
+            highlightStep();
+        }
+
+        // Générer un labyrinthe au chargement de la page
+        generateMaze();
+    </script>
+
+    <h2>liens</h2>
+    <ul>
+        <li><a href="https://github.com/mathisboche" target="_blank">mon github</a></li>
+        <li><a href="mailto:mathisboche@outlook.fr">me contacter</a></li>
+    </ul>
+
+    <p>&copy; 2024 mathis boche - 100% html avec un soupçon de css pour les démos.</p>
+</body>
+</html>
