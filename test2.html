@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>!!! UNDEFINED ERROR !!!</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: monospace;
+            background: black;
+            color: white;
+        }
+
+        .chaos {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3vw;
+            animation: chaos-move 1s infinite;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes chaos-move {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-60%, -40%) scale(1.5); color: rgba(255, 0, 0, 0.9); }
+            100% { transform: translate(-50%, -50%) scale(1); color: rgba(0, 255, 0, 0.5); }
+        }
+    </style>
+</head>
+<body>
+    <div id="main-chaos" class="chaos">ERROR INEVITABLE</div>
+    <script>
+        // ajoute un élément aléatoire
+        function spawnRandomChaos() {
+            const el = document.createElement('div');
+            el.innerText = Math.random() > 0.5 ? "CORRUPTED" : "MALFUNCTION";
+            el.className = 'chaos';
+            el.style.top = Math.random() * 100 + 'vh';
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.fontSize = Math.random() * 10 + 'px';
+            el.style.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+            document.body.appendChild(el);
+
+            setTimeout(() => el.remove(), Math.random() * 5000 + 2000);
+        }
+
+        // supprime et altère constamment le contenu
+        function corruptMainContent() {
+            const main = document.getElementById('main-chaos');
+            main.innerText = main.innerText
+                .split('')
+                .sort(() => Math.random() - 0.5)
+                .join('');
+            main.style.fontSize = Math.random() * 5 + 'vw';
+            main.style.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+        }
+
+        // alerte imprévisible
+        function randomAlert() {
+            if (Math.random() > 0.8) alert("SYSTEM COMPROMISED");
+        }
+
+        // chaos déclenché par la souris
+        document.body.addEventListener('mousemove', () => {
+            spawnRandomChaos();
+            if (Math.random() > 0.7) corruptMainContent();
+        });
+
+        // chaos déclenché par clic
+        document.body.addEventListener('click', () => {
+            document.body.style.background = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+            randomAlert();
+        });
+
+        // destruction aléatoire
+        setInterval(() => {
+            const allElements = document.querySelectorAll('.chaos');
+            allElements.forEach(el => {
+                if (Math.random() > 0.5) el.remove();
+            });
+            spawnRandomChaos();
+        }, 500);
+
+        // auto-modification continue
+        setInterval(() => {
+            corruptMainContent();
+            spawnRandomChaos();
+        }, Math.random() * 1000 + 500);
+
+        // disparition totale aléatoire
+        setTimeout(() => {
+            document.body.innerHTML = '<h1 style="color: red; text-align: center;">!!! SYSTEM FAILURE !!!</h1>';
+        }, Math.random() * 15000 + 5000);
+    </script>
+</body>
+</html>
