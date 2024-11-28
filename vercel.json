@@ -1,7 +1,0 @@
-{
-    "redirects": [
-      { "source": "/bio", "destination": "/bio.html", "permanent": true },
-      { "source": "/en", "destination": "/english.html", "permanent": true }
-    ]
-  }
-  
